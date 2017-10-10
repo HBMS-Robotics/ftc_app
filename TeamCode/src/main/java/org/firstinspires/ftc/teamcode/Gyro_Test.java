@@ -47,7 +47,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 //This is an example LinearOpMode that shows how to use the Modern Robotics Gyro.
 
 @TeleOp(name = "Sensor: MR Gyro", group = "Sensor")
-//@Disabled
+@Disabled
 public class Gyro_Test extends LinearOpMode 
 {
 

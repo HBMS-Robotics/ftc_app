@@ -53,7 +53,7 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @TeleOp(name="iterave_opMode_1", group="Iterative Opmode")
-//@Disabled
+@Disabled
 public class TestRangeToServo extends OpMode
 {
     // Declare OpMode members.

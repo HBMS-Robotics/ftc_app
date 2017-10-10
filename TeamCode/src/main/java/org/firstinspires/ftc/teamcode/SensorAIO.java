@@ -52,13 +52,10 @@ final int RED_LED_CHANNEL = 1;
   @Override
   public void runOpMode() {
 
-
     DeviceInterfaceModule dim;                  // Device Object
-
 
     // get a reference to a Modern Robotics DIM, and IO channels.
     dim = hardwareMap.get(DeviceInterfaceModule.class, "dim");   //  Use generic form of device mapping
-
 
     // wait for the start button to be pressed.
     telemetry.addData(">", "Waiting for start");
@@ -72,9 +69,9 @@ final int RED_LED_CHANNEL = 1;
     while (opModeIsActive())  {
 
         // Read some analog channels:
-        double a1 = dim.getAnalogInputVoltage(1);
-        double a2 = dim.getAnalogInputVoltage(2);
-        double a3 = dim.getAnalogInputVoltage(3);
+        double a1 = dim.getAnalogInputVoltage(0);
+        double a2 = dim.getAnalogInputVoltage(1);
+        double a3 = dim.getAnalogInputVoltage(2);
         double am = dim.getMaxAnalogInputVoltage();
 
 

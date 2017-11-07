@@ -29,49 +29,61 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import android.graphics.Color;
-
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
+
 /**
- * This OpMode scans a single servo back and forwards until Stop is pressed.
- * The code is structured as a LinearOpMode
- * INCREMENT sets how much to increase/decrease the servo position each cycle
- * CYCLE_MS sets the update period.
+ * This file contains an example of an iterative (Non-Linear) "OpMode".
+ * An OpMode is a 'program' that runs in either the autonomous or the teleop period of an FTC match.
+ * The names of OpModes appear on the menu of the FTC Driver Station.
+ * When an selection is made from the menu, the corresponding OpMode
+ * class is instantiated on the Robot Controller and executed.
  *
- * This code assumes a Servo configured with the name "left claw" as is found on a pushbot.
+ * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
+ * It includes all the skeletal structure that all iterative OpModes contain.
  *
- * NOTE: When any servo position is set, ALL attached servos are activated, so ensure that any other
- * connected servos are able to move freely before running this test.
- *
- * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
+ * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name = "RedAlliance_jewelTail", group = "Concept")
-//@Disabled
-public class Servo_test_1 extends LinearOpMode {
-
-    //   static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
-    //  static final int    CYCLE_MS    =   50;     // period of each cycle
-    // static final double MAX_POS     =  1.0;     // Maximum rotational position
-    //static final double MIN_POS     =  0.0;     // Minimum rotational position
-
-    // Define class members
+@TeleOp(name="Basic: Iterative OpMode", group="Iterative Opmode")
+@Disabled
+public class iterative_jewel_redAlliance extends OpMode {
+    // Declare OpMode members.
     Servo servo_tilt;
     Servo servo_pan;
     ColorSensor color_sensor;
-    // double  position = (MAX_POS - MIN_POS) / 2; // Start at halfway position
-    // boolean rampUp = true;
-
-
+}
+    /*
+     * Code to run ONCE when the driver hits INIT
+     */
     @Override
-    public void runOpMode() {
+    public void init() {
+        telemetry.addData("Status", "Initialized");
 
+        // Initialize the hardware variables. Note that the strings used here as parameters
+        // to 'get' must correspond to the names assigned during the robot configuration
+        // step (using the FTC Robot Controller app on the phone).
+        servo_tilt = hardwareMap.get(Servo.class, "servo_tilt");
+        servo_pan = hardwareMap.get(Servo.class, "servo_pan");
+        color_sensor = hardwareMap.get(ColorSensor.class, "color_sensor");
+
+        // Tell the driver that initialization is complete.
+        telemetry.addData("Status", "Initialized");
+    }
+
+    /*
+     * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
+     */
+    @Override
+    public void init_loop()
+    {
         // Connect to servo (Assume PushBot Left Hand)
         // Change the text in quotes to match any servo name on your robot.
         servo_tilt = hardwareMap.get(Servo.class, "servo_tilt");
@@ -115,59 +127,21 @@ public class Servo_test_1 extends LinearOpMode {
                 }
                 done = true;
             }
-            // slew the servo, according to the rampUp (direction) variable.
-            //    if (rampUp) {
-            // Keep stepping up until we hit the max value.
-            //        position += INCREMENT ;
-            //        if (position >= MAX_POS ) {
-            //        position = MAX_POS;
-            //       rampUp = !rampUp;   // Switch ramp direction
-            //}
-
-            //
-            //  }
-            //   else {
-            // Keep stepping down until we hit the min value.
-            //     position -= INCREMENT ;
-            //    if (position <= MIN_POS ) {
-            //        position = MIN_POS;
-            //      rampUp = !rampUp;  // Switch ramp direction
-            // }
-            //     }
-
-            // // Display the current value
-            // telemetry.addData("Servo Position", "%5.2f", position);
-            //  telemetry.addData(">", "Press Stop to end test." );
-            //  telemetry.update();
-
-            // Set the servo to the new position and pause;
-            // servo.setPosition(position);
-            //  sleep(CYCLE_MS);
-            //   idle();
-            //}
-
-            // // Signal done;
-            // telemetry.addData(">", "Done");
-            // telemetry.update();
-            //}
-        }
     }
 
-    boolean seeRed()
-    {
-        telemetry.addData("Clear", color_sensor.alpha());
-        telemetry.addData("Red  ", color_sensor.red());
-        telemetry.addData("Green", color_sensor.green());
-        telemetry.addData("Blue ", color_sensor.blue());
-        telemetry.update();
-        if  (color_sensor.red() > color_sensor.blue())
-        {
-            return true;
-        }
-        else
-          {
-              return false;
-          }
-      }
+
+    @Override
+    public void loop() {
+
+    }
+
+    }
+
+    /*
+     * Code to run ONCE after the driver hits STOP
+     */
+    @Override
+    public void stop() {
+    }
 
 }

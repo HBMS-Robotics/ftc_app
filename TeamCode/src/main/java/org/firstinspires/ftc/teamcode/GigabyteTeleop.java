@@ -130,14 +130,15 @@ public class GigabyteTeleop extends OpMode{
         else {
             robot.leftArm.setPower(0.0);
         }
-        if(robot.limitSwitch.getState()&&gamepad2.a){
-            robot.leftArm.setPower(0);
+        if(robot.limitSwitch.getState()==true&&gamepad2.a){
+            robot.leftArm.setPower(0.0);
         }
         // Send telemetry message to signify robot running;
         telemetry.addData("Claw",  "Offset = %.2f", clawOffset);
         telemetry.addData("Arm Speed",robot.leftArm.getPower());
         telemetry.addData("Arm Estimate",armMovementEstimate);
         telemetry.addData("Switch",robot.limitSwitch.getState());
+        telemetry.addData("Switch Need",robot.limitSwitch.getState()==true&&gamepad2.a);
         telemetry.addData("Left", "%.2f",b_left);
         telemetry.addData("Right", "%.2f", b_right);
         telemetry.addData("Runtime","%f",elapsed.seconds());

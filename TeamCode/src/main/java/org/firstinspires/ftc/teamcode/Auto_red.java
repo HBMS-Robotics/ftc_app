@@ -52,9 +52,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name = "RedAlliance_jewelTail", group = "Concept")
+@Autonomous(name = "RedAlliance_jewelTail")
 //@Disabled
-public class Servo_test_1 extends LinearOpMode {
+public class Auto_red extends LinearOpMode {
 
     //   static final double INCREMENT   = 0.01;     // amount to slew servo each CYCLE_MS cycle
     //  static final int    CYCLE_MS    =   50;     // period of each cycle
@@ -71,7 +71,6 @@ public class Servo_test_1 extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-
         // Connect to servo (Assume PushBot Left Hand)
         // Change the text in quotes to match any servo name on your robot.
         servo_tilt = hardwareMap.get(Servo.class, "servo_tilt");
@@ -95,7 +94,8 @@ public class Servo_test_1 extends LinearOpMode {
                 sleep(1000);
                 servo_tilt.setPosition(0.65);
                 sleep(1000);
-                if (seeRed()) {
+                seeRed=seeRed();
+                if (seeRed){
                     telemetry.addLine("I see Red");
                     telemetry.update();
                     servo_pan.setPosition(0.7);
@@ -153,7 +153,7 @@ public class Servo_test_1 extends LinearOpMode {
         }
     }
 
-    boolean seeRed()
+    public boolean seeRed()
     {
         telemetry.addData("Clear", color_sensor.alpha());
         telemetry.addData("Red  ", color_sensor.red());

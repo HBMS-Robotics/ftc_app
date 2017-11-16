@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.configuration.MotorControllerConfiguratio
  */
 
 public class GigabyteHardware {
-    public final boolean IS_USING_FOUR_MOTORS=false;
+    public final boolean IS_USING_FOUR_MOTORS=true;
     public DcMotor front_right=null;
     public DcMotor front_left=null;
     public DcMotor back_right=null;
@@ -22,6 +22,7 @@ public class GigabyteHardware {
     public Servo    rightClaw   = null;
     DigitalChannel limitSwitch;
     DeviceInterfaceModule dim;
+    public ColorSensor color_sensor;
     public GigabyteHardware(){
     }
 
@@ -53,6 +54,6 @@ public class GigabyteHardware {
         rightClaw = hwmap.get(Servo.class, "right_hand");
         leftClaw.setPosition(MID_SERVO);
         rightClaw.setPosition(MID_SERVO);
-
+        color_sensor = hwmap.get(ColorSensor.class, "color_sensor");
     }
 }

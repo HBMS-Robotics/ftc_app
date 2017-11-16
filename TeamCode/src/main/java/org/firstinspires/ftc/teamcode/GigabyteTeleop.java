@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Color;
+
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -59,6 +61,8 @@ public class GigabyteTeleop extends OpMode{
     float b_left=0;
     @Override
     public void loop() {
+        telemetry.addData("Red",robot.color_sensor.red());
+        telemetry.addData("Blue",robot.color_sensor.blue());
         gpad_x=0;
         gpad_y=0;
         gpad_x2=0;
@@ -73,7 +77,7 @@ public class GigabyteTeleop extends OpMode{
         f_right =(gpad_y + gpad_x);
         b_left = (gpad_y - gpad_x);
         b_right = (gpad_y + gpad_x);
-        float logBase=(float)Math.E;
+       float logBase=(float)Math.E;
         b_left= (float) ((float)(Math.signum(b_left))*Math.log((logBase-1)*Math.abs(b_left)+1)/Math.log(logBase));
         b_right= (float) ((float)(Math.signum(b_right))*Math.log((logBase-1)*Math.abs(b_right)+1)/Math.log(logBase));
         if(robot.IS_USING_FOUR_MOTORS){
@@ -94,11 +98,11 @@ public class GigabyteTeleop extends OpMode{
 
         }
         if (state == RobotState.DRIVE) {
-            robot.back_left.setPower(Range.clip(b_left,-1,1));
-            robot.back_right.setPower(Range.clip(b_right,-1,1));
+            robot.back_left.setPower(b_left);
+            robot.back_right.setPower(b_right);
         } else if (state == RobotState.ENDGAME) {
-            robot.back_left.setPower(Range.clip(0.75 * b_left,-1,1));
-            robot.back_right.setPower(Range.clip(0.75 * b_right,-1,1));
+            robot.back_left.setPower(b_left*0.75);
+            robot.back_right.setPower(b_right*0.75);
         }
         if (robot.IS_USING_FOUR_MOTORS) {
             if (state == RobotState.DRIVE) {
@@ -114,7 +118,6 @@ public class GigabyteTeleop extends OpMode{
             clawOffset += CLAW_SPEED;
         else if (gamepad2.left_bumper)
             clawOffset -= CLAW_SPEED;
-
         // Move both servos to new position.  Assume servos are mirror image of each other.
         clawOffset = Range.clip(clawOffset, -0.5, 0.5);
         robot.leftClaw.setPosition(robot.MID_SERVO + clawOffset);
@@ -124,13 +127,10 @@ public class GigabyteTeleop extends OpMode{
         if (gamepad2.y){
             robot.leftArm.setPower(robot.ARM_UP_POWER);
         }
-        else if (gamepad2.a) {
+        else if (gamepad2.a&&!robot.limitSwitch.getState()) {
             robot.leftArm.setPower(robot.ARM_DOWN_POWER);
         }
         else {
-            robot.leftArm.setPower(0.0);
-        }
-        if(robot.limitSwitch.getState()==true&&gamepad2.a){
             robot.leftArm.setPower(0.0);
         }
         // Send telemetry message to signify robot running;
@@ -153,4 +153,5 @@ public class GigabyteTeleop extends OpMode{
         telemetry.clear();
         telemetry.addLine("Turning off...");
     }
+
 }

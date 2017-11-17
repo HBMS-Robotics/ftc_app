@@ -9,49 +9,25 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.*;
 import java.lang.Math.*;
-/**
- * Created by hbms on 10/17/17.
- */
-@TeleOp(name="Gigabyte Shmeleop V1.7", group="Teleop")
+
+@TeleOp(name="Gigabyte Shmeleop V2.1", group="Teleop")
 public class GigabyteTeleop extends OpMode{
 
-    /* Declare OpMode members. */
-    // HardwareMap hardwareMap;
-    GigabyteHardware robot=new GigabyteHardware();
+    MecanumBotHardware robot=new MecanumBotHardware();
     ElapsedTime elapsed=new ElapsedTime();
-    double          clawOffset  = 0.0 ;                  // Servo mid position
-    final double    CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
-    /*
-     * Code to run ONCE when the driver hits INIT
-     */
+    double          clawOffset  = 0.0 ;
+    final double    CLAW_SPEED  = 0.02 ;
     RobotState state=RobotState.DRIVE;
-    double armMovementEstimate=0;
     @Override
     public void init() {
         robot.init(hardwareMap);
         telemetry.addData("stuffs","thingy-fying");
         telemetry.addLine("Robot is initializing...");
+        telemetry.addData("Important Message", "!EL MORSA SER MUERTAS MUCHOSESi");
         elapsed.reset();
         elapsed.startTime();
     }
 
-    /*
-     * Code to run REPEATEDLY after the driver hits INIT, but before they hit PLAY
-     */
-    @Override
-    public void init_loop() {
-    }
-
-    /*
-     * Code to run ONCE when the driver hits PLAY
-     */
-    @Override
-    public void start() {
-    }
-
-    /*
-     * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
-     */
     float gpad_x=0;
     float gpad_y=0;
     float gpad_x2=0;
@@ -61,15 +37,15 @@ public class GigabyteTeleop extends OpMode{
     float b_left=0;
     @Override
     public void loop() {
-        telemetry.addData("Red",robot.color_sensor.red());
-        telemetry.addData("Blue",robot.color_sensor.blue());
+//        telemetry.addData("Red",robot.color_sensor.red());
+//        telemetry.addData("Blue",robot.color_sensor.blue());
         gpad_x=0;
         gpad_y=0;
         gpad_x2=0;
         f_right=0;
         f_left=0;
         b_right=0;
-        b_left=0;    // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
+        b_left=0;
         gpad_x = -gamepad1.left_stick_x;
         gpad_y = -gamepad1.left_stick_y;
         gpad_x2 = -gamepad1.right_stick_x;
@@ -80,6 +56,8 @@ public class GigabyteTeleop extends OpMode{
        float logBase=(float)Math.E;
         b_left= (float) ((float)(Math.signum(b_left))*Math.log((logBase-1)*Math.abs(b_left)+1)/Math.log(logBase));
         b_right= (float) ((float)(Math.signum(b_right))*Math.log((logBase-1)*Math.abs(b_right)+1)/Math.log(logBase));
+        f_left= (float) ((float)(Math.signum(f_left))*Math.log((logBase-1)*Math.abs(f_left)+1)/Math.log(logBase));
+        f_right= (float) ((float)(Math.signum(f_right))*Math.log((logBase-1)*Math.abs(f_right)+1)/Math.log(logBase));
         if(robot.IS_USING_FOUR_MOTORS){
             f_left-=gpad_x2;
             f_right+=gpad_x2;
@@ -88,15 +66,7 @@ public class GigabyteTeleop extends OpMode{
         }
         telemetry.addData("X", "%f", gpad_x);
         telemetry.addData("Y", "%f", gpad_y);
-        if (state == RobotState.DRIVE && gamepad1.left_trigger >= 0.9) {
-            state = RobotState.ENDGAME;
-            telemetry.addLine("Endgame mode enabled");
-        }
-        if (state == RobotState.ENDGAME && gamepad1.right_trigger >= 0.9) {
-            state = RobotState.DRIVE;
-            telemetry.addLine("Drive mode enabled");
 
-        }
         if (state == RobotState.DRIVE) {
             robot.back_left.setPower(b_left);
             robot.back_right.setPower(b_right);
@@ -113,32 +83,16 @@ public class GigabyteTeleop extends OpMode{
                 robot.front_right.setPower(Range.clip(0.75 * f_right,-1,1));
             }
         }
-        // Use gamepad left & right Bumpers to open and close the claw
-        if (gamepad2.right_bumper)
-            clawOffset += CLAW_SPEED;
-        else if (gamepad2.left_bumper)
-            clawOffset -= CLAW_SPEED;
-        // Move both servos to new position.  Assume servos are mirror image of each other.
-        clawOffset = Range.clip(clawOffset, -0.5, 0.5);
-        robot.leftClaw.setPosition(robot.MID_SERVO + clawOffset);
-        robot.rightClaw.setPosition(robot.MID_SERVO - clawOffset);
-
         // Use gamepad buttons to move the arm up (Y) and down (A)
         if (gamepad2.y){
-            robot.leftArm.setPower(robot.ARM_UP_POWER);
         }
-        else if (gamepad2.a&&!robot.limitSwitch.getState()) {
-            robot.leftArm.setPower(robot.ARM_DOWN_POWER);
-        }
+//        else if (gamepad2.a&&!robot.limitSwitch.getState()) {
+//        }
         else {
-            robot.leftArm.setPower(0.0);
         }
         // Send telemetry message to signify robot running;
-        telemetry.addData("Claw",  "Offset = %.2f", clawOffset);
-        telemetry.addData("Arm Speed",robot.leftArm.getPower());
-        telemetry.addData("Arm Estimate",armMovementEstimate);
-        telemetry.addData("Switch",robot.limitSwitch.getState());
-        telemetry.addData("Switch Need",robot.limitSwitch.getState()==true&&gamepad2.a);
+  //      telemetry.addData("Switch",robot.limitSwitch.getState());
+  //      telemetry.addData("Switch Need",robot.limitSwitch.getState()==true&&gamepad2.a);
         telemetry.addData("Left", "%.2f",b_left);
         telemetry.addData("Right", "%.2f", b_right);
         telemetry.addData("Runtime","%f",elapsed.seconds());

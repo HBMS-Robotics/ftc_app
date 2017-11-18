@@ -118,6 +118,8 @@ public class StateMachine {
             if (opmode != null)
                 opmode.telemetry.addData("WARNING: StateMachine:", "No start state.");
         }
+        if (opmode != null)
+            opmode.telemetry.update();
     }
 
     // State machine loop function to be called from op_mode loop()
@@ -132,7 +134,7 @@ public class StateMachine {
                 if (transitionTo(next) == false) {
                     if (opmode != null)
                         opmode.telemetry.addData("WARNING: State Machine:",
-                                                    "No next state %s", next);
+                                                    "Invalid next state %s", next);
                 }
             }
             // Otherwise we use the default and stay in this state.
@@ -160,6 +162,7 @@ public class StateMachine {
         } else {
             if (opmode != null)
                 opmode.telemetry.addData("WARNING: State Machine:", "No stop state.");
+                opmode.telemetry.update();
         }
     }
 

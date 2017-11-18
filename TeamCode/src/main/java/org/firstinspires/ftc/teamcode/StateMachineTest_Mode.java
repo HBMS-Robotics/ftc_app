@@ -55,8 +55,9 @@ public class StateMachineTest_Mode extends OpMode
     public void init() {
         // Build state machine:
         sm = new StateMachine(this,16);
-        sm.addStartState(new WaitState("WaitAtStart", 1.0, "A"));
-        sm.addState(new WaitState("A", 0.5, "B"));
+        sm.addStartState(new WaitState("WaitAtStart", 3.0, "A"));
+        sm.addState(new WaitState("A", 0.5, "ZZZ"));
+        sm.addState(new DummyState("ZZZ", "B"));
         sm.addState(new WaitState("B", 2.0, "A"));
         // Init the state machine:
         sm.init();

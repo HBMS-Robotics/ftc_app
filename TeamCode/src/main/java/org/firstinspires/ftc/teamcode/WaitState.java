@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import org.firstinspires.ftc.teamcode.StateMachine;
-import org.firstinspires.ftc.teamcode.StateMachine.State;
 
 /**
  * Created by todd on 11/16/17.

@@ -49,24 +49,23 @@ public class GigabyteTeleop extends OpMode{
         gpad_x = -gamepad1.left_stick_x;
         gpad_y = -gamepad1.left_stick_y;
         gpad_x2 = -gamepad1.right_stick_x;
-        f_left = (gpad_y - gpad_x);
-        f_right =(gpad_y + gpad_x);
-        b_left = (gpad_y - gpad_x);
-        b_right = (gpad_y + gpad_x);
+        f_left = (gpad_y - gpad_x2);
+        f_right =(gpad_y + gpad_x2);
+        b_left = (gpad_y - gpad_x2);
+        b_right = (gpad_y + gpad_x2);
        float logBase=(float)Math.E;
+        if(robot.IS_USING_FOUR_MOTORS){
+            f_left-=gpad_x;
+            f_right+=gpad_x;
+            b_left+=gpad_x;
+            b_right-=gpad_x;
+        }
+        telemetry.addData("X", "%f", gpad_x);
+        telemetry.addData("Y", "%f", gpad_y);
         b_left= (float) ((float)(Math.signum(b_left))*Math.log((logBase-1)*Math.abs(b_left)+1)/Math.log(logBase));
         b_right= (float) ((float)(Math.signum(b_right))*Math.log((logBase-1)*Math.abs(b_right)+1)/Math.log(logBase));
         f_left= (float) ((float)(Math.signum(f_left))*Math.log((logBase-1)*Math.abs(f_left)+1)/Math.log(logBase));
         f_right= (float) ((float)(Math.signum(f_right))*Math.log((logBase-1)*Math.abs(f_right)+1)/Math.log(logBase));
-        if(robot.IS_USING_FOUR_MOTORS){
-            f_left-=gpad_x2;
-            f_right+=gpad_x2;
-            b_left+=gpad_x2;
-            b_right-=gpad_x2;
-        }
-        telemetry.addData("X", "%f", gpad_x);
-        telemetry.addData("Y", "%f", gpad_y);
-
         if (state == RobotState.DRIVE) {
             robot.back_left.setPower(b_left);
             robot.back_right.setPower(b_right);

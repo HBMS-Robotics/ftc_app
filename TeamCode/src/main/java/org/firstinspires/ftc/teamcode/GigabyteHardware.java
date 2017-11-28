@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.configuration.MotorControllerConfiguratio
  */
 
 public class GigabyteHardware {
-    public final boolean IS_USING_FOUR_MOTORS=true;
+    public final boolean IS_USING_FOUR_MOTORS=false;
     public DcMotor front_right=null;
     public DcMotor front_left=null;
     public DcMotor back_right=null;

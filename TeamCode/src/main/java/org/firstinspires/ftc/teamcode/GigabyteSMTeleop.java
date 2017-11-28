@@ -13,14 +13,14 @@ public class GigabyteSMTeleop extends OpMode{
 
     /* Declare OpMode members. */
     // HardwareMap hardwareMap;
-    GigabyteHardware robot = null;
+    MecanumBotHardware robot = null;
     StateMachine sm = null;
 
     @Override
     public void init() {
 
         // Create the hardware instance and initialize it.
-        robot = new GigabyteHardware();
+        robot = new MecanumBotHardware();
         robot.init(hardwareMap);
 
         // Create the state machine and configure states.

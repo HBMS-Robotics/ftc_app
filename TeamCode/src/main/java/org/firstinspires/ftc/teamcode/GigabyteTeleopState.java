@@ -12,13 +12,13 @@ public class GigabyteTeleopState extends  StateMachine.State {
 
     /* Declare OpMode members. */
     // HardwareMap hardwareMap;
-    GigabyteHardware robot;
+    MecanumBotHardware robot;
     double          clawOffset  = 0.0 ;                  // Servo mid position
     final double    CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
 
-    public GigabyteTeleopState(String name, GigabyteHardware hw) {
+    public GigabyteTeleopState(String name, MecanumBotHardware hw) {
         super(name);
-        robot = hw;
+        robot = hw; // Save the reference to the hardware robot.
     }
 
     @Override
@@ -28,7 +28,14 @@ public class GigabyteTeleopState extends  StateMachine.State {
 
     @Override
     public void exit() {
-        // Does nothing.
+        // Stops commands when you leave the mode:
+        robot.back_left.setPower(0.0);
+        robot.back_right.setPower(0.0);
+
+        if (robot.IS_USING_FOUR_MOTORS) {
+            robot.front_left.setPower(0.0);
+            robot.front_right.setPower(0.0);
+        }
     }
 
 
@@ -37,13 +44,13 @@ public class GigabyteTeleopState extends  StateMachine.State {
      */
     @Override
     public String update(double secs) {
-        float gpad_x=0;
-        float gpad_y=0;
-        float gpad_x2=0;
-        float f_right=0;
-        float f_left=0;
-        float b_right=0;
-        float b_left=0;    // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
+        float gpad_x = 0;
+        float gpad_y = 0;
+        float gpad_x2 = 0;
+        float f_right = 0;
+        float f_left = 0;
+        float b_right = 0;
+        float b_left = 0;    // Run wheels in tank mode (note: The joystick goes negative when pushed forwards, so negate it)
         gpad_x = -opmode.gamepad1.left_stick_x;
         gpad_y = -opmode.gamepad1.left_stick_y;
         gpad_x2 = -opmode.gamepad1.right_stick_x;
@@ -54,7 +61,8 @@ public class GigabyteTeleopState extends  StateMachine.State {
         float logBase=(float)Math.E;
         b_left= (float) ((float)(Math.signum(b_left))*Math.log((logBase-1)*Math.abs(b_left)+1)/Math.log(logBase));
         b_right= (float) ((float)(Math.signum(b_right))*Math.log((logBase-1)*Math.abs(b_right)+1)/Math.log(logBase));
-        if(robot.IS_USING_FOUR_MOTORS){
+
+        if (robot.IS_USING_FOUR_MOTORS){
             f_left-=gpad_x2;
             f_right+=gpad_x2;
             b_left+=gpad_x2;
@@ -83,26 +91,23 @@ public class GigabyteTeleopState extends  StateMachine.State {
 
         // Use gamepad buttons to move the arm up (Y) and down (A)
         if (opmode.gamepad2.y){
-            robot.leftArm.setPower(robot.ARM_UP_POWER);
+            robot.shoulder.setPower(robot.ARM_UP_POWER);
         }
         else if (opmode.gamepad2.a) {
-            robot.leftArm.setPower(robot.ARM_DOWN_POWER);
+            robot.shoulder.setPower(robot.ARM_DOWN_POWER);
         }
         else {
-            robot.leftArm.setPower(0.0);
+            robot.shoulder.setPower(0.0);
         }
-        if(robot.limitSwitch.getState()&&opmode.gamepad2.a){
-            robot.leftArm.setPower(0);
-        }
+
         // Send telemetry message to signify robot running;
         opmode.telemetry.addData("Claw",  "Offset = %.2f", clawOffset);
-        opmode.telemetry.addData("Arm Speed",robot.leftArm.getPower());
-        opmode.telemetry.addData("Switch",robot.limitSwitch.getState());
-        opmode.telemetry.addData("Left", "%.2f",b_left);
+        opmode.telemetry.addData("Arm Speed", robot.shoulder.getPower());
+        opmode.telemetry.addData("Left", "%.2f", b_left);
         opmode.telemetry.addData("Right", "%.2f", b_right);
         opmode.telemetry.addData("Runtime","%f", secs);
 
-        return "";
+        return ""; // Don't change state
     }
 
 

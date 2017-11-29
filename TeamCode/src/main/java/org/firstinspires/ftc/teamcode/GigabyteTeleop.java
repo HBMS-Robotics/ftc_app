@@ -11,6 +11,7 @@ import java.lang.Math.*;
  * Created by hbms on 10/17/17.
  */
 @TeleOp(name="Gigabyte Shmeleop V1.7", group="Teleop")
+@Disabled
 public class GigabyteTeleop extends OpMode{
 
     /* Declare OpMode members. */

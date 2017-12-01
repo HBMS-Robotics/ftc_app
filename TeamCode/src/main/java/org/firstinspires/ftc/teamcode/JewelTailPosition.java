@@ -5,8 +5,8 @@ package org.firstinspires.ftc.teamcode;
  * Created by todd on 11/16/17.
  */
 
-public class ServoPosition extends StateMachine.State {
-    public ServoPosition(String name, JewelTailHardware  jewel_hw_, String next_, double servo_pan_, double servo_tilt_) {
+public class JewelTailPosition extends StateMachine.State {
+    public JewelTailPosition(String name, JewelTailHardware  jewel_hw_, String next_, double servo_pan_, double servo_tilt_) {
         super(name);
         next = next_;
         jewel_hw = jewel_hw_;

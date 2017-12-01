@@ -20,6 +20,7 @@ public class JewelTailHardware {
         // Define and initialize ALL installed servos.
         servo_pan  = hwmap.get(Servo.class, "servo_pan");
         servo_tilt = hwmap.get(Servo.class, "servo_tilt");
+        color_sensor = hwmap.get(SensorREVColorDistance.class, "color_sensor");
         servo_pan.setPosition(0.0);
         servo_tilt.setPosition(0.0);
 

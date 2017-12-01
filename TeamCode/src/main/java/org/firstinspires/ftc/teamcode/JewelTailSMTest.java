@@ -25,8 +25,11 @@ public class JewelTailSMTest extends OpMode{
         sm.addStartState(new WaitState("BriefPause", 1.0, "position_1"));
         sm.addState(new JewelTailPosition("position_1", robot, "wait_1", 0.0, 0.0));
         sm.addState(new WaitState("wait_1", 1.0, "position_2"));
-        sm.addState(new JewelTailPosition("position_2", robot, "wait_2", 0.2, 0.5));
-        sm.addState(new WaitState("wait_2", 2.0, "terminal"));
+        sm.addState(new JewelTailPosition("position_2", robot, "wait_2", 0.0, 0.5));
+        sm.addState(new WaitState("wait_2", 2.0, "position_3"));
+        sm.addState(new JewelTailPosition("position_3", robot, "wait_3", 0.5, 0.5));
+        sm.addState(new WaitState("wait_3", 2.0, "terminal"));
+
         sm.addState(new TerminalState("terminal"));
         // Init the state machine
         sm.init();

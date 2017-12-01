@@ -1,16 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 /**
  * Created by hbms on 10/17/17.
  */
-@TeleOp(name="JewelTailSMTest", group="Autonomous")
+@Autonomous(name="JewelTailSMTest", group="Autonomous")
 public class JewelTailSMTest extends OpMode{
 
     /* Declare OpMode members. */
-    // HardwareMap hardwareMap;
     JewelTailHardware robot = null;
     StateMachine sm = null;
 
@@ -23,11 +22,11 @@ public class JewelTailSMTest extends OpMode{
 
         // Create the state machine and configure states.
         sm = new StateMachine(this, 16);
-        sm.addStartState(new WaitState("BriefPause", 0.5, "position_1"));
+        sm.addStartState(new WaitState("BriefPause", 1.0, "position_1"));
         sm.addState(new JewelTailPosition("position_1", robot, "wait_1", 0.0, 0.0));
-        sm.addStartState(new WaitState("wait_1", 1.0, "position_2"));
+        sm.addState(new WaitState("wait_1", 1.0, "position_2"));
         sm.addState(new JewelTailPosition("position_2", robot, "wait_2", 0.2, 0.5));
-        sm.addStartState(new WaitState("wait_2", 2.0, "terminal"));
+        sm.addState(new WaitState("wait_2", 2.0, "terminal"));
         sm.addState(new TerminalState("terminal"));
         // Init the state machine
         sm.init();

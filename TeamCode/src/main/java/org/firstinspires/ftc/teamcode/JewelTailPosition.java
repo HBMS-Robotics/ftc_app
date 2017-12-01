@@ -16,7 +16,7 @@ public class JewelTailPosition extends StateMachine.State {
 
     @Override
     public void enter() {
-        // Does nothing.
+        // Sets servo positions
         jewel_hw.servo_pan.setPosition(servo_pan);
         jewel_hw.servo_tilt.setPosition(servo_tilt);
     }
@@ -31,8 +31,8 @@ public class JewelTailPosition extends StateMachine.State {
         return next;
     }
 
-    private String next;
-    private double servo_pan;
-    private double servo_tilt;
-    private JewelTailHardware jewel_hw;
+    private String next = "";
+    private double servo_pan = 0.0;
+    private double servo_tilt = 0.0;
+    private JewelTailHardware jewel_hw = null;
 }

@@ -134,7 +134,7 @@ public class StateMachine {
                 if (transitionTo(next) == false) {
                     if (opmode != null)
                         opmode.telemetry.addData("WARNING: State Machine:",
-                                                    "Invalid next state %s", next);
+                                                    "Invalid next state %s from %s", next, currentState.name());
                 }
             }
             // Otherwise we use the default and stay in this state.

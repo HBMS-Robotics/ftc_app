@@ -24,7 +24,7 @@ public class TerminalState extends StateMachine.State {
     @Override
     public String update(double secs) {
 
-        return " ";
+        return "";
     }
 
 

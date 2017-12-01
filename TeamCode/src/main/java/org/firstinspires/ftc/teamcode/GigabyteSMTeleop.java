@@ -20,7 +20,7 @@ public class GigabyteSMTeleop extends OpMode{
     public void init() {
 
         // Create the hardware instance and initialize it.
-        robot = new MecanumBotHardware();
+        robot = new MecanumBotHardware(true,true,false,false);
         robot.init(hardwareMap);
 
         // Create the state machine and configure states.

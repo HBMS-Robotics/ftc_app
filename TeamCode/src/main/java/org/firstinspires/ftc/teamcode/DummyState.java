@@ -18,6 +18,8 @@ public class DummyState extends StateMachine.State {
     public void enter() {
         if (opmode != null)
             opmode.telemetry.addData("StateMachine:", "Dummy %s Enter", name());
+
+        // Foo
     }
 
     @Override

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -13,14 +15,18 @@ public class JewelTailHardware {
 
     public Servo    servo_tilt = null;
     public Servo    servo_pan   = null;
-    public SensorREVColorDistance color_sensor = null;
+    public ColorSensor color_sensor = null;
+    public DistanceSensor distance_sensor = null;
 
     public void init(HardwareMap hwmap) {
 
         // Define and initialize ALL installed servos.
         servo_pan  = hwmap.get(Servo.class, "servo_pan");
         servo_tilt = hwmap.get(Servo.class, "servo_tilt");
-        color_sensor = hwmap.get(SensorREVColorDistance.class, "color_sensor");
+
+        color_sensor = hwmap.get(ColorSensor.class, "color_sensor");
+        distance_sensor = hwmap.get(DistanceSensor.class, "color_sensor");
+
         servo_pan.setPosition(0.0);
         servo_tilt.setPosition(0.0);
 

@@ -30,7 +30,7 @@ public class ColorSensorState extends StateMachine.State {
 
     @Override
     public String update(double secs) {
-
+        return "";
     }
 
     private String next_b;

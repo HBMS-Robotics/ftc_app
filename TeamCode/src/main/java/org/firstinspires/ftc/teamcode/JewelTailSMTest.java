@@ -22,14 +22,17 @@ public class JewelTailSMTest extends OpMode{
 
         // Create the state machine and configure states.
         sm = new StateMachine(this, 16);
-        sm.addStartState(new WaitState("BriefPause", 1.0, "position_1"));
-        sm.addState(new JewelTailPosition("position_1", robot, "wait_1", 0.0, 0.0));
-        sm.addState(new WaitState("wait_1", 1.0, "position_2"));
-        sm.addState(new JewelTailPosition("position_2", robot, "wait_2", 0.0, 0.5));
-        sm.addState(new WaitState("wait_2", 2.0, "position_3"));
-        sm.addState(new JewelTailPosition("position_3", robot, "wait_3", 0.5, 0.5));
-        sm.addState(new WaitState("wait_3", 2.0, "terminal"));
-
+        sm.addStartState(new WaitState("BriefPause", 1.0, "init_pose"));
+        sm.addState(new JewelTailPosition("init_pose", robot, "wait_1", 0.6, 0.2));
+        sm.addState(new WaitState("wait_1", 1.0, "move_to_sense"));
+        sm.addState(new JewelTailPosition("move_to_sense", robot, "wait_2", 0.0, 0.5));
+        sm.addState(new WaitState("wait_2", 2.0, "sense_jewel"));
+        sm.addState(new ColorSensorState("sense_jewel", robot, "sweep_back", "sweep_forward", "go_back"));
+        sm.addState(new JewelTailPosition("sweep_back", robot, "wait_3", 0.4, 0.5));
+        sm.addState(new JewelTailPosition("sweep_forward", robot, "wait_3", 0.2, 0.8));
+        sm.addState(new JewelTailPosition("go_back", robot, "wait_3", 0.6, 0.2));
+        sm.addState(new WaitState("wait_3", 2.0, "endPose"));
+        sm.addState(new JewelTailPosition("endPose", robot, "terminal", 0.0, 0.0));
         sm.addState(new TerminalState("terminal"));
         // Init the state machine
         sm.init();

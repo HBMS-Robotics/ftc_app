@@ -9,7 +9,8 @@ import org.firstinspires.ftc.robotcontroller.external.samples.SensorREVColorDist
 
 public class ColorSensorState extends StateMachine.State {
 
-    public ColorSensorState(String name, JewelTailHardware jewel_hw, String next_b_, String next_r_, String next_what_) {
+    public ColorSensorState(String name, JewelTailHardware jewel_hw, String next_b_,
+                            String next_r_, String next_what_) {
         super(name);
         jt_hw = jewel_hw;
         next_b = next_b_;
@@ -38,19 +39,20 @@ public class ColorSensorState extends StateMachine.State {
         {
             return "";
         }
-        if (Red)
+
+
+        if (Red && !Blue)
         {
             return next_r;
         }
-        if (Blue)
+
+
+        if (Blue && !Red)
         {
             return next_b;
         }
-        else
-        {
-            return next_what;
-        }
 
+            return next_what;
     }
 
 
@@ -61,7 +63,8 @@ public class ColorSensorState extends StateMachine.State {
         opmode.telemetry.addData("Green", jt_hw.color_sensor.green());
         opmode.telemetry.addData("Blue ", jt_hw.color_sensor.blue());
         opmode.telemetry.update();
-        if  (jt_hw.color_sensor.red() > 75 && jt_hw.color_sensor.green() < 70 && jt_hw.color_sensor.blue() < 85 && jt_hw.color_sensor.alpha() > 200);
+        if  (jt_hw.color_sensor.red() > 75 && jt_hw.color_sensor.green() < 70 &&
+                jt_hw.color_sensor.blue() < 85 && jt_hw.color_sensor.alpha() > 200)
         {
             return true;
         }
@@ -77,7 +80,8 @@ public class ColorSensorState extends StateMachine.State {
         opmode.telemetry.addData("Green", jt_hw.color_sensor.green());
         opmode.telemetry.addData("Blue ", jt_hw.color_sensor.blue());
         opmode.telemetry.update();
-        if  (jt_hw.color_sensor.red() < 50 && jt_hw.color_sensor.green() < 175 && jt_hw.color_sensor.blue() > 175 && jt_hw.color_sensor.alpha() > 200);
+        if  (jt_hw.color_sensor.red() < 50 && jt_hw.color_sensor.green() < 175 &&
+                jt_hw.color_sensor.blue() > 175 && jt_hw.color_sensor.alpha() > 200)
         {
             return true;
         }

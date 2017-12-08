@@ -27,8 +27,8 @@ public class JewelTailHardware {
         color_sensor = hwmap.get(ColorSensor.class, "color_sensor");
         distance_sensor = hwmap.get(DistanceSensor.class, "color_sensor");
 
-        servo_pan.setPosition(0.0);
-        servo_tilt.setPosition(0.0);
+        //servo_pan.setPosition(0.0);
+      //  servo_tilt.setPosition(0.0);
 
     }
 }

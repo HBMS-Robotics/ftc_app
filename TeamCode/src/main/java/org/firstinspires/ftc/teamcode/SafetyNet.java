@@ -11,7 +11,7 @@ public class SafetyNet extends OpMode{
 
     /* Declare OpMode members. */
     JewelTailHardware jt = null;
-    GigabyteHardware gh = null;
+    MecanumBotHardware mh = null;
     StateMachine sm = null;
 
     @Override
@@ -19,14 +19,14 @@ public class SafetyNet extends OpMode{
 
         // Create the hardware instance and initialize it.
         jt = new JewelTailHardware();
-        gh = new GigabyteHardware();
+        mh = new MecanumBotHardware(true, true, true, true);
         jt.init(hardwareMap);
-        gh.init(hardwareMap);
+        mh.init(hardwareMap);
 
         // Create the state machine and configure states.
         sm = new StateMachine(this, 16);
-        sm.addStartState(new WaitState("BriefPause", 1.0, "terminal"));
-        //TODO: saftey net logic
+        sm.addStartState(new WaitState("BriefPause", 1.0, "drive"));
+        sm.addStartState(new DriveState("drive", mh, 4200, "terminal"));
         sm.addState(new TerminalState("terminal"));
         // Init the state machine
         sm.init();

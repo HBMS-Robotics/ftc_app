@@ -79,4 +79,42 @@ public class MecanumBotHardware {
             rightClaw.setPosition(MID_SERVO);
         }
     }
+
+    public void drive(double tf, double tl, double r){
+        //Drives the robot forward by tf, side by tl, and rotate by r.
+        double fl=(tf-r)-tl;
+        double fr=(tf+r)+tl;
+        double bl=(tf-r)+tl;
+        double br=(tf+r)-tl;
+        front_left.setPower(fl);
+        front_right.setPower(fr);
+        back_left.setPower(bl);
+        back_right.setPower(br);
+    }
+//    public void driveToPosition(float tf,float tl, float r){
+//        //Resets encoders.
+//        front_left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        front_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        back_left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        back_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        //Sets encoders to run to position.
+//        front_left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        front_right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        back_left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//        back_right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+//
+//        float fl=(tf-r)-tl;
+//        float fr=(tf+r)+tl;
+//        float bl=(tf-r)+tl;
+//        float br=(tf+r)-tl;
+//        int encoderTicks=1120;
+//        fl*=encoderTicks;
+//        fr*=encoderTicks;
+//        bl*=encoderTicks;
+//        br*=encoderTicks;
+//        front_left.setTargetPosition(fl);
+//        front_right.setTargetPosition(fr);
+//        back_left.setTargetPosition(bl);
+//        back_right.setTargetPosition(br);
+//    }
 }

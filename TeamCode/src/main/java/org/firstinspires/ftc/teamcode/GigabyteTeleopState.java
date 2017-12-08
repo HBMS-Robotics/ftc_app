@@ -60,25 +60,25 @@ public class GigabyteTeleopState extends  StateMachine.State {
         gpad_x= (float) ((float)(Math.signum(gpad_x))*Math.log((logBase-1)*Math.abs(gpad_x)+1)/Math.log(logBase));
         gpad_y= (float) ((float)(Math.signum(gpad_y))*Math.log((logBase-1)*Math.abs(gpad_y)+1)/Math.log(logBase));
         gpad_x2= (float) ((float)(Math.signum(gpad_x2))*Math.log((logBase-1)*Math.abs(gpad_x2)+1)/Math.log(logBase));
-        f_right =(gpad_y + gpad_x2);
-        b_left = (gpad_y - gpad_x2);
-        b_right = (gpad_y + gpad_x2);
-
-        if (robot.IS_USING_FOUR_MOTORS){
-            f_left = (gpad_y - gpad_x2)-gpad_x;
-            f_right =(gpad_y + gpad_x2)+gpad_x;
-            b_left = (gpad_y - gpad_x2)+gpad_x;
-            b_right = (gpad_y + gpad_x2)-gpad_x;
-        }
+        robot.drive(gpad_y,gpad_x,gpad_x2);
+//        b_left = (gpad_y - gpad_x2);
+//        b_right = (gpad_y + gpad_x2);
+//
+//        if (robot.IS_USING_FOUR_MOTORS){
+//            f_left = (gpad_y - gpad_x2)-gpad_x;
+//            f_right =(gpad_y + gpad_x2)+gpad_x;
+//            b_left = (gpad_y - gpad_x2)+gpad_x;
+//            b_right = (gpad_y + gpad_x2)-gpad_x;
+//        }
         opmode.telemetry.addData("X", "%f", gpad_x);
         opmode.telemetry.addData("Y", "%f", gpad_y);
-        robot.back_left.setPower(Range.clip(b_left,-1,1));
-        robot.back_right.setPower(Range.clip(b_right,-1,1));
-
-        if (robot.IS_USING_FOUR_MOTORS) {
-            robot.front_left.setPower(Range.clip(f_left,-1,1));
-            robot.front_right.setPower(Range.clip(f_right,-1,1));
-        }
+//        robot.back_left.setPower(Range.clip(b_left,-1,1));
+//        robot.back_right.setPower(Range.clip(b_right,-1,1));
+//
+//        if (robot.IS_USING_FOUR_MOTORS) {
+//            robot.front_left.setPower(Range.clip(f_left,-1,1));
+//            robot.front_right.setPower(Range.clip(f_right,-1,1));
+//        }
         // Use gamepad left & right Bumpers to open and close the claw
         if (opmode.gamepad2.right_bumper)
             clawOffset += CLAW_SPEED;

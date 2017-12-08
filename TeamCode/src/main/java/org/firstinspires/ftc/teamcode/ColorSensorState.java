@@ -35,25 +35,28 @@ public class ColorSensorState extends StateMachine.State {
     public String update(double secs) {
         boolean Red = seeRed();
         boolean Blue = seeBlue();
-        if (secs < 2.0)
-        {
+        boolean What = seeWhat();
+        if (secs < 4) {
             return "";
         }
 
 
-        if (Red && !Blue)
-        {
+        if (Red) {
             return next_r;
         }
 
 
-        if (Blue && !Red)
-        {
+        if (Blue) {
             return next_b;
         }
-
+        if (What)
+        {
             return next_what;
+        }
+
+        return "";
     }
+
 
 
     protected boolean seeRed()
@@ -63,8 +66,8 @@ public class ColorSensorState extends StateMachine.State {
         opmode.telemetry.addData("Green", jt_hw.color_sensor.green());
         opmode.telemetry.addData("Blue ", jt_hw.color_sensor.blue());
         opmode.telemetry.update();
-        if  (jt_hw.color_sensor.red() > 75 && jt_hw.color_sensor.green() < 70 &&
-                jt_hw.color_sensor.blue() < 85 && jt_hw.color_sensor.alpha() > 200)
+        if  (jt_hw.color_sensor.red() > 90 && jt_hw.color_sensor.green() < 45 &&
+                jt_hw.color_sensor.blue() < 75 && jt_hw.color_sensor.alpha() > 100)
         {
             return true;
         }
@@ -80,8 +83,8 @@ public class ColorSensorState extends StateMachine.State {
         opmode.telemetry.addData("Green", jt_hw.color_sensor.green());
         opmode.telemetry.addData("Blue ", jt_hw.color_sensor.blue());
         opmode.telemetry.update();
-        if  (jt_hw.color_sensor.red() < 50 && jt_hw.color_sensor.green() < 175 &&
-                jt_hw.color_sensor.blue() > 175 && jt_hw.color_sensor.alpha() > 200)
+        if  (jt_hw.color_sensor.red() < 60 && jt_hw.color_sensor.green() < 250 &&
+                jt_hw.color_sensor.blue() > 150 && jt_hw.color_sensor.alpha() > 150)
         {
             return true;
         }
@@ -90,7 +93,22 @@ public class ColorSensorState extends StateMachine.State {
             return false;
         }
     }
-
+    protected boolean seeWhat() {
+        opmode.telemetry.addData("Alpha", jt_hw.color_sensor.alpha());
+        opmode.telemetry.addData("Red  ", jt_hw.color_sensor.red());
+        opmode.telemetry.addData("Green", jt_hw.color_sensor.green());
+        opmode.telemetry.addData("Blue ", jt_hw.color_sensor.blue());
+        opmode.telemetry.update();
+        if (jt_hw.color_sensor.red() < 20 && jt_hw.color_sensor.green() < 20 &&
+                jt_hw.color_sensor.blue() < 15 && jt_hw.color_sensor.alpha() < 45)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     private String next_b;
     private String next_r;

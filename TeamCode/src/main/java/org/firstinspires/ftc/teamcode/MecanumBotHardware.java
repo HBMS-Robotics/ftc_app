@@ -47,6 +47,7 @@ public class MecanumBotHardware {
             shoulder = hwmap.get(DcMotor.class, "shoulder");
             shoulder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             shoulder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            shoulder.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
         back_left.setDirection(DcMotor.Direction.FORWARD);
         back_right.setDirection(DcMotor.Direction.REVERSE);

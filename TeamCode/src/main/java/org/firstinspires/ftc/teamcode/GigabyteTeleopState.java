@@ -16,7 +16,7 @@ public class GigabyteTeleopState extends  StateMachine.State {
     double          clawOffset  = 0.0 ;                  // Servo mid position
     double          wristOffset  = 0.0 ;                  // Servo mid position
     final double    CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
-    float arm_move =0;
+    double arm_move =0;
     int             shoulderOffset = 0;
     public GigabyteTeleopState(String name, MecanumBotHardware hw) {
         super(name);
@@ -88,7 +88,10 @@ public class GigabyteTeleopState extends  StateMachine.State {
             wristOffset=-0.5*opmode.gamepad2.right_stick_y;
         }
         if(robot.HAS_SHOULDER) {
-            arm_move += -0.2*opmode.gamepad2.left_stick_y;
+            arm_move = -0.4*opmode.gamepad2.left_stick_y;
+        }
+        if(robot.HAS_SHOULDER){
+            robot.shoulder.setPower(arm_move);
         }
         // Move both servos to new position.  Assume servos are mirror image of each other.
         clawOffset = Range.clip(clawOffset, -0.5, 0.5);

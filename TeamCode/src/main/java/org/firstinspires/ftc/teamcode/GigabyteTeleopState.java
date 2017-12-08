@@ -14,8 +14,10 @@ public class GigabyteTeleopState extends  StateMachine.State {
     // HardwareMap hardwareMap;
     MecanumBotHardware robot;
     double          clawOffset  = 0.0 ;                  // Servo mid position
+    double          wristOffset  = 0.0 ;                  // Servo mid position
     final double    CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
-
+    float arm_move =0;
+    int             shoulderOffset = 0;
     public GigabyteTeleopState(String name, MecanumBotHardware hw) {
         super(name);
         robot = hw; // Save the reference to the hardware robot.
@@ -42,6 +44,7 @@ public class GigabyteTeleopState extends  StateMachine.State {
     /*
      * Code to run REPEATEDLY after the driver hits PLAY but before they hit STOP
      */
+    float logBase=(float)Math.E;
     @Override
     public String update(double secs) {
         float gpad_x = 0;
@@ -54,24 +57,21 @@ public class GigabyteTeleopState extends  StateMachine.State {
         gpad_x = -opmode.gamepad1.left_stick_x;
         gpad_y = -opmode.gamepad1.left_stick_y;
         gpad_x2 = -opmode.gamepad1.right_stick_x;
-        f_left = (gpad_y - gpad_x2);
+        gpad_x= (float) ((float)(Math.signum(gpad_x))*Math.log((logBase-1)*Math.abs(gpad_x)+1)/Math.log(logBase));
+        gpad_y= (float) ((float)(Math.signum(gpad_y))*Math.log((logBase-1)*Math.abs(gpad_y)+1)/Math.log(logBase));
+        gpad_x2= (float) ((float)(Math.signum(gpad_x2))*Math.log((logBase-1)*Math.abs(gpad_x2)+1)/Math.log(logBase));
         f_right =(gpad_y + gpad_x2);
         b_left = (gpad_y - gpad_x2);
         b_right = (gpad_y + gpad_x2);
-        float logBase=(float)Math.E;
 
         if (robot.IS_USING_FOUR_MOTORS){
-            f_left-=gpad_x;
-            f_right+=gpad_x;
-            b_left+=gpad_x;
-            b_right-=gpad_x;
+            f_left = (gpad_y - gpad_x2)-gpad_x;
+            f_right =(gpad_y + gpad_x2)+gpad_x;
+            b_left = (gpad_y - gpad_x2)+gpad_x;
+            b_right = (gpad_y + gpad_x2)-gpad_x;
         }
         opmode.telemetry.addData("X", "%f", gpad_x);
         opmode.telemetry.addData("Y", "%f", gpad_y);
-//        b_left= (float) ((float)(Math.signum(b_left))*Math.log((logBase-1)*Math.abs(b_left)+1)/Math.log(logBase));
-//        b_right= (float) ((float)(Math.signum(b_right))*Math.log((logBase-1)*Math.abs(b_right)+1)/Math.log(logBase));
- //       f_left= (float) ((float)(Math.signum(f_left))*Math.log((logBase-1)*Math.abs(f_left)+1)/Math.log(logBase));
-//        f_right= (float) ((float)(Math.signum(f_right))*Math.log((logBase-1)*Math.abs(f_right)+1)/Math.log(logBase));
         robot.back_left.setPower(Range.clip(b_left,-1,1));
         robot.back_right.setPower(Range.clip(b_right,-1,1));
 
@@ -84,32 +84,44 @@ public class GigabyteTeleopState extends  StateMachine.State {
             clawOffset += CLAW_SPEED;
         else if (opmode.gamepad2.left_bumper)
             clawOffset -= CLAW_SPEED;
-
+        if(robot.HAS_WRIST) {
+            wristOffset=-0.5*opmode.gamepad2.right_stick_y;
+        }
+        if(robot.HAS_SHOULDER) {
+            arm_move += -0.2*opmode.gamepad2.left_stick_y;
+        }
         // Move both servos to new position.  Assume servos are mirror image of each other.
         clawOffset = Range.clip(clawOffset, -0.5, 0.5);
         if(robot.HAS_CLAWS) {
             robot.leftClaw.setPosition(robot.MID_SERVO + clawOffset);
             robot.rightClaw.setPosition(robot.MID_SERVO - clawOffset);
         }
+        if(robot.HAS_WRIST) {
+            robot.wrist.setPosition(robot.MID_SERVO + wristOffset);
+            robot.wrist2.setPosition(1-(robot.MID_SERVO + wristOffset));
+        }
         // Use gamepad buttons to move the arm up (Y) and down (A)
-        if(robot.HAS_SHOULDER) {
-            if (opmode.gamepad2.y) {
-                robot.shoulder.setPower(robot.ARM_UP_POWER);
-            } else if (opmode.gamepad2.a) {
-                robot.shoulder.setPower(robot.ARM_DOWN_POWER);
-            } else {
-                robot.shoulder.setPower(0.0);
-            }
-        }
         // Send telemetry message to signify robot running;
-        opmode.telemetry.addData("Claw",  "Offset = %.2f", clawOffset);
-        if(robot.HAS_SHOULDER) {
-            opmode.telemetry.addData("Arm Speed", robot.shoulder.getPower());
+        if(robot.HAS_CLAWS) {
+            opmode.telemetry.addData("Claw", "Offset = %.2f", clawOffset);
         }
-        opmode.telemetry.addData("Left", "%.2f", b_left);
-        opmode.telemetry.addData("Right", "%.2f", b_right);
+        if(robot.HAS_WRIST){
+            opmode.telemetry.addData("Wrist", "Offset = %.2f", wristOffset);
+        }
+        if(robot.HAS_CLAWS) {
+            opmode.telemetry.addData("ClawActual", "Offset = %.2f", robot.leftClaw.getPosition() - 0.5);
+        }
+        if(robot.HAS_WRIST) {
+            opmode.telemetry.addData("WristActual", "Offset = %.2f", robot.wrist.getPosition() - 0.5);
+        }
+        if(robot.HAS_SHOULDER) {
+            opmode.telemetry.addData("Arm Position", robot.shoulder.getCurrentPosition());
+        }
+        opmode.telemetry.addData("Back left", "%.2f", b_left);
+        opmode.telemetry.addData("Back right", "%.2f", b_right);
+        opmode.telemetry.addData("Front left", "%.2f", b_left);
+        opmode.telemetry.addData("Front right", "%.2f", b_right);
         opmode.telemetry.addData("Runtime","%f", secs);
-
         return ""; // Don't change state
     }
 

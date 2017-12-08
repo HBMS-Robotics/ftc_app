@@ -16,17 +16,19 @@ public class MecanumBotHardware {
     public boolean IS_USING_FOUR_MOTORS;
     public boolean HAS_WRIST;
     public boolean HAS_SHOULDER;
+    public int shoulderSpeed = 100;
     public DcMotor front_right = null;
     public DcMotor front_left = null;
     public DcMotor back_right = null;
     public DcMotor back_left = null;
-    public Servo   leftClaw    = null;
-    public Servo   rightClaw   = null;
+    public Servo   leftClaw = null;
+    public Servo   rightClaw = null;
     public Servo   wrist = null;
+    public Servo   wrist2 = null;
     public DcMotor  shoulder = null;
     public static final double MID_SERVO       =  0.5 ;
-    public static final double ARM_UP_POWER    =  0.75 ;
-    public static final double ARM_DOWN_POWER  = -0.75 ;
+    public static final double ARM_UP_POWER    =  0.55 ;
+    public static final double ARM_DOWN_POWER  = -0.45 ;
     public MecanumBotHardware(boolean _IS_USING_FOUR_MOTORS,boolean _HAS_SHOULDER, boolean _HAS_WRIST, boolean _HAS_CLAWS){
         IS_USING_FOUR_MOTORS=_IS_USING_FOUR_MOTORS;
         HAS_SHOULDER=_HAS_SHOULDER;
@@ -43,7 +45,8 @@ public class MecanumBotHardware {
         back_left=hwmap.get(DcMotor.class,"back_left");
         if(HAS_SHOULDER) {
             shoulder = hwmap.get(DcMotor.class, "shoulder");
-            shoulder.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            shoulder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            shoulder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
         back_left.setDirection(DcMotor.Direction.FORWARD);
         back_right.setDirection(DcMotor.Direction.REVERSE);
@@ -67,6 +70,8 @@ public class MecanumBotHardware {
         if(HAS_WRIST) {
             wrist = hwmap.get(Servo.class, "wrist");
             wrist.setPosition(MID_SERVO);
+            wrist2 = hwmap.get(Servo.class, "wrist2");
+            wrist2.setPosition(MID_SERVO);
         }
         if(HAS_CLAWS) {
             leftClaw.setPosition(MID_SERVO);

@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.Range;
 /**
  * Created by hbms on 10/17/17.
  */
-@TeleOp(name="Gigabyte SM Teleop", group="Teleop")
+@TeleOp(name="Gigabyte SM Teleop (Skynet V.2.9)", group="Teleop")
 public class GigabyteSMTeleop extends OpMode{
 
     /* Declare OpMode members. */
@@ -20,7 +20,7 @@ public class GigabyteSMTeleop extends OpMode{
     public void init() {
 
         // Create the hardware instance and initialize it.
-        robot = new MecanumBotHardware(true,true,false,false);
+        robot = new MecanumBotHardware(true,false,true,true);
         robot.init(hardwareMap);
 
         // Create the state machine and configure states.

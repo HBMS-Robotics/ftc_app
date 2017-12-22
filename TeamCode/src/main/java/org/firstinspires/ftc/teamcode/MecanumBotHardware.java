@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 /**
  * Created by hbms on 10/17/17.
@@ -26,6 +27,7 @@ public class MecanumBotHardware {
     public Servo   wrist = null;
     public Servo   wrist2 = null;
     public DcMotor  shoulder = null;
+    public DigitalChannel touch;
     public static final double MID_SERVO       =  0.5 ;
     public static final double ARM_UP_POWER    =  0.55 ;
     public static final double ARM_DOWN_POWER  = -0.45 ;
@@ -78,18 +80,27 @@ public class MecanumBotHardware {
             leftClaw.setPosition(MID_SERVO);
             rightClaw.setPosition(MID_SERVO);
         }
+        touch=hwmap.get(DigitalChannel.class,"touch");
     }
 
-    public void drive(double tf, double tl, double r){
+    public void drive(double tf, double tl, double r,float speed){
         //Drives the robot forward by tf, side by tl, and rotate by r.
         double fl=(tf-r)-tl;
         double fr=(tf+r)+tl;
         double bl=(tf-r)+tl;
         double br=(tf+r)-tl;
+        fl*=speed;
+        fr*=speed;
+        bl*=speed;
+        br*=speed;
         front_left.setPower(fl);
         front_right.setPower(fr);
         back_left.setPower(bl);
         back_right.setPower(br);
+    }
+    public static float logCurve(float num){
+        float logBase=6;
+        return((float) ((float)(Math.signum(num))*Math.log((logBase-1)*Math.abs(num)+1)/Math.log(logBase)));
     }
 //    public void driveToPosition(float tf,float tl, float r){
 //        //Resets encoders.

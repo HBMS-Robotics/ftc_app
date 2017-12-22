@@ -41,7 +41,7 @@ public class DriveState extends StateMachine.State {
 //        m_hw.front_left.setPower(0);
 //        m_hw.back_left.setPower(0);
 //        m_hw.back_right.setPower(0);
-          m_hw.drive(0.0, 0.0, 0.0);
+          m_hw.drive(0.0, 0.0, 0.0,1.0f);
 
     }
         // Does nothing.
@@ -59,7 +59,7 @@ public class DriveState extends StateMachine.State {
 //            m_hw.front_left.setPower(1);
 //            m_hw.back_left.setPower(1);
 //            m_hw.back_right.setPower(1);
-              m_hw.drive(0.5, 0.0, 0.0);
+              m_hw.drive(0.5, 0.0, 0.0,1);
             return "";
         }
         else

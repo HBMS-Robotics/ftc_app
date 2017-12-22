@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.Range;
 /**
  * Created by hbms on 10/17/17.
  */
-@TeleOp(name="Gigabyte SM Teleop (Skynet V.2.9)", group="Teleop")
+@TeleOp(name="Gigabyte Teleop 2.0 (Groundnet)", group="Teleop")
 public class GigabyteSMTeleop extends OpMode{
 
     /* Declare OpMode members. */
@@ -25,9 +25,8 @@ public class GigabyteSMTeleop extends OpMode{
 
         // Create the state machine and configure states.
         sm = new StateMachine(this, 16);
-        sm.addStartState(new WaitState("BriefPause", 0.5, "MainTeleop"));
-        sm.addState(new GigabyteTeleopState("MainTeleop", robot));
-
+        sm.addStartState(new GigabyteTeleopState("MainTeleop", robot));
+        sm.addState(new ShoulderPose("Pose1",robot,2880));
         // Init the state machine
         sm.init();
     }

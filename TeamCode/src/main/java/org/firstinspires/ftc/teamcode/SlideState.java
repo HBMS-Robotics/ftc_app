@@ -1,23 +1,20 @@
 package org.firstinspires.ftc.teamcode;
 
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-
 /**
  * Created by todd on 11/16/17.
  */
 
-public class DriveState extends StateMachine.State {
+public class SlideState extends StateMachine.State {
 
 
 
-    public DriveState(String name, MecanumBotHardware m_hw_, int distance_, String next_)
+    public SlideState(String name, MecanumBotHardware m_hw_, int distance_, String next_)
     {
         super(name);
         next = next_;
         m_hw = m_hw_;
         distance = distance_;
-
         start_position = 0;
         target_position = 0;
     }
@@ -37,10 +34,6 @@ public class DriveState extends StateMachine.State {
     public void exit()
     {
         //stop
-//        m_hw.front_right.setPower(0);
-//        m_hw.front_left.setPower(0);
-//        m_hw.back_left.setPower(0);
-//        m_hw.back_right.setPower(0);
           m_hw.drive(0.0, 0.0, 0.0);
 
     }
@@ -55,11 +48,14 @@ public class DriveState extends StateMachine.State {
         if (Math.abs(target_position - currentPosition) > 30)
         {
             //keep driving
-//            m_hw.front_right.setPower(1);
-//            m_hw.front_left.setPower(1);
-//            m_hw.back_left.setPower(1);
-//            m_hw.back_right.setPower(1);
-              m_hw.drive(0.5, 0.0, 0.0);
+             if(distance < 0)
+             {
+                 m_hw.drive(0.0, -0.5, 0.0);
+             }
+             else
+             {
+                 m_hw.drive(0.0, 0.5, 0.0);
+             }
             return "";
         }
         else

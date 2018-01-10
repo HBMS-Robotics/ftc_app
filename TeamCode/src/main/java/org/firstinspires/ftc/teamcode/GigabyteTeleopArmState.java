@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 /**
@@ -13,9 +16,9 @@ public class GigabyteTeleopArmState extends  StateMachine.State {
     MecanumBotHardware robot;
     double          clawOffset  = 0.0 ;                  // Servo mid position
     double          wristOffset  = 0.0 ;                  // Servo mid position
-    final double    CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
+    final double    CLAW_SPEED  = 0.04 ;                 // sets rate to move servo
     double arm_move =0;
-    float drive_speed=1;
+    float armspeed=1;
     int             shoulderOffset = 0;
     public GigabyteTeleopArmState(String name, MecanumBotHardware hw) {
         super(name);
@@ -29,15 +32,6 @@ public class GigabyteTeleopArmState extends  StateMachine.State {
 
     @Override
     public void exit() {
-        // Stops commands when you leave the mode:
-        robot.back_left.setPower(0.0);
-        robot.back_right.setPower(0.0);
-
-        if (robot.IS_USING_FOUR_MOTORS) {
-            robot.front_left.setPower(0.0);
-            robot.front_right.setPower(0.0);
-            robot.shoulder.setPower(0);
-        }
     }
 
 
@@ -50,15 +44,24 @@ public class GigabyteTeleopArmState extends  StateMachine.State {
             clawOffset += CLAW_SPEED;
         else if (opmode.gamepad2.left_bumper)
             clawOffset -= CLAW_SPEED;
-        if (opmode.gamepad1.right_bumper)
-            drive_speed=Range.clip(drive_speed+0.01f,0,1);
-        else if (opmode.gamepad1.left_bumper)
-            drive_speed=Range.clip(drive_speed-0.01f,0,1);
-        if(opmode.gamepad2.x){
+        if(opmode.gamepad2.dpad_down){
+            wristOffset=0.12;
             return "Pose1";
         }
+        if(opmode.gamepad2.dpad_left){
+            wristOffset=0.05;
+            return "Pose2";
+        }
+        if(opmode.gamepad2.dpad_up){
+            wristOffset=-0.17;
+            return "Pose3";
+        }
+        if(opmode.gamepad2.dpad_right){
+            wristOffset=-0.35;
+            return "Pose4";
+        }
         if(robot.HAS_WRIST) {
-            wristOffset+=-0.1*opmode.gamepad2.right_stick_y;
+            wristOffset+=-0.025*opmode.gamepad2.right_stick_y;
             wristOffset=Range.clip(wristOffset,-0.5,0.5);
         }
         if(robot.HAS_SHOULDER) {
@@ -66,12 +69,14 @@ public class GigabyteTeleopArmState extends  StateMachine.State {
             arm_move=robot.logCurve((float)arm_move);
             if(!robot.touch.getState()&&arm_move<0) {
                 arm_move = 0;
+                robot.shoulder.setPower(0);
                 robot.shoulder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             }
             else {
                 robot.shoulder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
             robot.shoulder.setPower(arm_move);
+
         }
         // Move both servos to new position.  Assume servos are mirror image of each other.
         clawOffset = Range.clip(clawOffset, -0.5, 0.5);
@@ -80,8 +85,12 @@ public class GigabyteTeleopArmState extends  StateMachine.State {
             robot.rightClaw.setPosition(robot.MID_SERVO - clawOffset);
         }
         if(robot.HAS_WRIST) {
+            if(opmode.gamepad2.a) {
+                int maxTicks=5763;
+                wristOffset=0.25-0.8*robot.shoulder.getCurrentPosition()/maxTicks;
+            }
             robot.wrist.setPosition(robot.MID_SERVO + wristOffset);
-            robot.wrist2.setPosition(1-(robot.MID_SERVO + wristOffset));
+            robot.wrist2.setPosition(1 - (robot.MID_SERVO + wristOffset));
         }
         // Use gamepad buttons to move the arm up (Y) and down (A)
         // Send telemetry message to signify robot running;
@@ -91,16 +100,10 @@ public class GigabyteTeleopArmState extends  StateMachine.State {
         if(robot.HAS_WRIST){
             opmode.telemetry.addData("Wrist", "Offset = %.2f", wristOffset);
         }
-        if(robot.HAS_CLAWS) {
-            opmode.telemetry.addData("ClawActual", "Offset = %.2f", robot.leftClaw.getPosition() - 0.5);
-        }
-        if(robot.HAS_WRIST) {
-            opmode.telemetry.addData("WristActual", "Offset = %.2f", robot.wrist.getPosition() - 0.5);
-        }
         if(robot.HAS_SHOULDER) {
             opmode.telemetry.addData("Arm Position", robot.shoulder.getCurrentPosition());
         }
-        opmode.telemetry.addData("Runtime","%f", secs);
+        opmode.telemetry.addData("Limit Switch",!robot.touch.getState());
         return ""; // Don't change state
     }
 

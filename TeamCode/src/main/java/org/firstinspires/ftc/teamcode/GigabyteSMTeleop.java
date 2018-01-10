@@ -14,8 +14,8 @@ public class GigabyteSMTeleop extends OpMode{
     /* Declare OpMode members. */
     // HardwareMap hardwareMap;
     MecanumBotHardware robot = null;
-    StateMachine sm = null;
-
+    StateMachine smDrive = null;
+    StateMachine smArm = null;
     @Override
     public void init() {
 
@@ -24,11 +24,20 @@ public class GigabyteSMTeleop extends OpMode{
         robot.init(hardwareMap);
 
         // Create the state machine and configure states.
-        sm = new StateMachine(this, 16);
-        sm.addStartState(new GigabyteTeleopState("MainTeleop", robot));
-        sm.addState(new ShoulderPose("Pose1",robot,2880));
+        smDrive = new StateMachine(this, 16);
+        smDrive.addStartState(new WaitState("wait",0.1,"MainDriveTeleop"));
+        smDrive.addState(new GigabyteTeleopDriveState("MainDriveTeleop", robot));
+
+        smArm = new StateMachine(this, 16);
+        smArm.addStartState(new WaitState("wait",0.1,"MainArmTeleop"));
+        smArm.addState(new GigabyteTeleopArmState("MainArmTeleop", robot));
+        smArm.addState(new ShoulderPose("Pose1",robot,0,0.12));
+        smArm.addState(new ShoulderPose("Pose2",robot,1079,0.05));
+        smArm.addState(new ShoulderPose("Pose3",robot,2602,-0.17));
+        smArm.addState(new ShoulderPose("Pose4",robot,3698,-0.35));
         // Init the state machine
-        sm.init();
+        smDrive.init();
+        smArm.init();
     }
 
     /*
@@ -36,7 +45,8 @@ public class GigabyteSMTeleop extends OpMode{
      */
     @Override
     public void init_loop() {
-        sm.init_loop();
+        smDrive.init_loop();
+        smArm.init_loop();
     }
 
     /*
@@ -44,7 +54,8 @@ public class GigabyteSMTeleop extends OpMode{
      */
     @Override
     public void start() {
-        sm.start();
+        smDrive.start();
+        smArm.start();
     }
 
     /*
@@ -52,7 +63,8 @@ public class GigabyteSMTeleop extends OpMode{
      */
     @Override
     public void loop() {
-        sm.loop();
+        smDrive.loop();
+        smArm.loop();
     }
 
     /*
@@ -60,7 +72,8 @@ public class GigabyteSMTeleop extends OpMode{
      */
     @Override
     public void stop() {
-        sm.stop();
+        smDrive.stop();
+        smArm.stop();
     }
 
 }

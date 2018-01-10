@@ -1,6 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
 /**
@@ -11,10 +14,6 @@ public class GigabyteTeleopDriveState extends  StateMachine.State {
     /* Declare OpMode members. */
     // HardwareMap hardwareMap;
     MecanumBotHardware robot;
-    double          clawOffset  = 0.0 ;                  // Servo mid position
-    double          wristOffset  = 0.0 ;                  // Servo mid position
-    final double    CLAW_SPEED  = 0.02 ;                 // sets rate to move servo
-    double arm_move =0;
     float drive_speed=1;
     int             shoulderOffset = 0;
     public GigabyteTeleopDriveState(String name, MecanumBotHardware hw) {
@@ -76,6 +75,10 @@ public class GigabyteTeleopDriveState extends  StateMachine.State {
 //            b_left = (gpad_y - gpad_x2)+gpad_x;
 //            b_right = (gpad_y + gpad_x2)-gpad_x;
 //        }
+        if (opmode.gamepad1.right_bumper)
+            drive_speed=Range.clip(drive_speed+0.01f,0,1);
+        else if (opmode.gamepad1.left_bumper)
+            drive_speed=Range.clip(drive_speed-0.01f,0,1);
         opmode.telemetry.addData("X", "%f", gpad_x);
         opmode.telemetry.addData("Y", "%f", gpad_y);
 //        robot.back_left.setPower(Range.clip(b_left,-1,1));
@@ -86,7 +89,6 @@ public class GigabyteTeleopDriveState extends  StateMachine.State {
 //            robot.front_right.setPower(Range.clip(f_right,-1,1));
 //        }
         // Use gamepad left & right Bumpers to open and close the claw
-        // Move both servos to new position.  Assume servos are mirror image of each other.
         opmode.telemetry.addData("Back left", "%.2f", (float)robot.back_left.getCurrentPosition());
         opmode.telemetry.addData("Back right", "%.2f", (float)robot.back_right.getCurrentPosition());
         opmode.telemetry.addData("Front left", "%.2f", (float)robot.front_left.getCurrentPosition());

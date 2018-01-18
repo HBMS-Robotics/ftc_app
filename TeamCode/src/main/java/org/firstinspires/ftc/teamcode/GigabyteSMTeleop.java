@@ -27,6 +27,7 @@ public class GigabyteSMTeleop extends OpMode{
         smDrive = new StateMachine(this, 16);
         smDrive.addStartState(new WaitState("wait",0.1,"MainDriveTeleop"));
         smDrive.addState(new GigabyteTeleopDriveState("MainDriveTeleop", robot));
+        smDrive.addState(new SpinPose("180DegSpin",6417,-6382,7407,-7421,robot));
 
         smArm = new StateMachine(this, 16);
         smArm.addStartState(new WaitState("wait",0.1,"MainArmTeleop"));
@@ -65,6 +66,7 @@ public class GigabyteSMTeleop extends OpMode{
     public void loop() {
         smDrive.loop();
         smArm.loop();
+        telemetry.update();
     }
 
     /*

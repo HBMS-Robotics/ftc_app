@@ -143,8 +143,8 @@ public class StateMachine {
                 opmode.telemetry.addData("WARNING: State Machine:", "No current state.");
         }
 
-        if (opmode != null)
-            opmode.telemetry.update();
+        if (opmode != null){}
+            //opmode.telemetry.update();
     }
 
     // State machine stop function to be called from op_mode stop()

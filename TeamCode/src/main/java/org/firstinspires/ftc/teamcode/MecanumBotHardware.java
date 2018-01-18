@@ -57,8 +57,12 @@ public class MecanumBotHardware {
             front_left.setDirection(DcMotor.Direction.FORWARD);
             front_right.setDirection(DcMotor.Direction.REVERSE);
         }
-        back_left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        back_right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        back_left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        back_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        front_left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        front_right.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        back_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        back_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         if(IS_USING_FOUR_MOTORS){
             front_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             front_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -72,9 +76,7 @@ public class MecanumBotHardware {
         }
         if(HAS_WRIST) {
             wrist = hwmap.get(Servo.class, "wrist");
-            wrist.setPosition(MID_SERVO);
             wrist2 = hwmap.get(Servo.class, "wrist2");
-            wrist2.setPosition(MID_SERVO);
         }
         if(HAS_CLAWS) {
             leftClaw.setPosition(MID_SERVO);

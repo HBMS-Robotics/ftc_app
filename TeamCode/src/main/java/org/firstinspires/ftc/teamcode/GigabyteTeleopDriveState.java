@@ -29,13 +29,13 @@ public class GigabyteTeleopDriveState extends  StateMachine.State {
     @Override
     public void exit() {
         // Stops commands when you leave the mode:
-        robot.back_left.setPower(0.0);
-        robot.back_right.setPower(0.0);
+//        robot.back_left.setPower(0.0);
+//        robot.back_right.setPower(0.0);
 
-        if (robot.IS_USING_FOUR_MOTORS) {
-            robot.front_left.setPower(0.0);
-            robot.front_right.setPower(0.0);
-        }
+//        if (robot.IS_USING_FOUR_MOTORS) {
+//            robot.front_left.setPower(0.0);
+//            robot.front_right.setPower(0.0);
+//        }
     }
 
 
@@ -79,6 +79,9 @@ public class GigabyteTeleopDriveState extends  StateMachine.State {
             drive_speed=Range.clip(drive_speed+0.01f,0,1);
         else if (opmode.gamepad1.left_bumper)
             drive_speed=Range.clip(drive_speed-0.01f,0,1);
+        if(opmode.gamepad1.b){
+            return "180DegSpin";
+        }
         opmode.telemetry.addData("X", "%f", gpad_x);
         opmode.telemetry.addData("Y", "%f", gpad_y);
 //        robot.back_left.setPower(Range.clip(b_left,-1,1));

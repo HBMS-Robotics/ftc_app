@@ -40,6 +40,7 @@ public class GigabyteTeleopArmState extends  StateMachine.State {
      */
     @Override
     public String update(double secs) {
+        clawOffset=robot.leftClaw.getPosition()-0.5;
         if (opmode.gamepad2.right_bumper)
             clawOffset += CLAW_SPEED;
         else if (opmode.gamepad2.left_bumper)

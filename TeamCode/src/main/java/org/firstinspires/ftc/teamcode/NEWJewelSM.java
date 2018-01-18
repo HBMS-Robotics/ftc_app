@@ -1,15 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 /**
  * Created by hbms on 10/17/17.
  */
-@Autonomous(name="JewelTailSMTest", group="Autonomous")
+@Autonomous(name="NEWJewelSM", group="Autonomous")
 @Disabled
-public class JewelTailSMTest extends OpMode{
+public class NEWJewelSM extends OpMode{
 
     /* Declare OpMode members. */
     JewelTailHardware robot = null;
@@ -31,17 +31,15 @@ public class JewelTailSMTest extends OpMode{
         // Create the state machine and configure states.
         sm = new StateMachine(this, 16);
         sm.addStartState(new WaitState("BriefPause", 1.0, "init_pose"));
-        sm.addState(new JewelTailPosition("init_pose", robot, "wait_1", 0.8));
+        sm.addState(new JewelTailPosition("init_pose", robot, "wait_1", 0.0));
         sm.addState(new WaitState("wait_1", 1.0, "move_to_sense"));
-        sm.addState(new JewelTailPosition("move_to_sense", robot, "wait_2", -0.6));
+        sm.addState(new JewelTailPosition("move_to_sense", robot, "wait_2", 0.0));
         sm.addState(new WaitState("wait_2", 2.0, "sense_jewel"));
         sm.addState(new ColorSensorState("sense_jewel", robot, "tilt_blue", "tilt_red", "do_neither"));
         sm.addState(new JewelTailPosition("tilt_blue", robot, "drive_back", 0.0));
         sm.addState(new JewelTailPosition("tilt_red", robot, "drive_forward", 0.0));
         sm.addState(new JewelTailPosition("do_neither", robot, "go_back", 0.0));
         sm.addState(new JewelTailPosition("go_back", robot, "drive_forward", 0.0));
-        //sm.addState(new SlideState("drive_back", robot, -4000, "drive_forward");
-        //sm.addState(new SlideState("drive_forward", robot, 4000, "wait_3"));
         sm.addState(new WaitState("wait_3", 2.0, "endPose"));
         sm.addState(new JewelTailPosition("endPose", robot, "terminal", 0.0));
         sm.addState(new TerminalState("terminal"));

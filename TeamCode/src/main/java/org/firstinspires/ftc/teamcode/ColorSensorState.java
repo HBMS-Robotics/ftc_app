@@ -10,12 +10,12 @@ import org.firstinspires.ftc.robotcontroller.external.samples.SensorREVColorDist
 public class ColorSensorState extends StateMachine.State {
 
     public ColorSensorState(String name, JewelTailHardware jewel_hw, String next_b_,
-                            String next_r_, String next_what_) {
+                            String next_r_, String next_else_) {
         super(name);
         jt_hw = jewel_hw;
         next_b = next_b_;
         next_r = next_r_;
-        next_what = next_what_;
+        next_else = next_else_;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class ColorSensorState extends StateMachine.State {
         }
         if (What)
         {
-            return next_what;
+            return next_else;
         }
 
         return "";
@@ -112,6 +112,6 @@ public class ColorSensorState extends StateMachine.State {
 
     private String next_b;
     private String next_r;
-    private String next_what;
+    private String next_else;
     private JewelTailHardware jt_hw;
 }

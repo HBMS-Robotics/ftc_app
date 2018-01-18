@@ -9,11 +9,11 @@ public class SlideState extends StateMachine.State {
 
 
 
-    public SlideState(String name, MecanumBotHardware m_hw_, int distance_, String next_)
+    public SlideState(String name, MecanumBotHardware robot_, int distance_, String next_)
     {
         super(name);
         next = next_;
-        m_hw = m_hw_;
+        robot = robot_;
         distance = distance_;
         start_position = 0;
         target_position = 0;
@@ -24,7 +24,7 @@ public class SlideState extends StateMachine.State {
         // Does nothing.
         //assume using encoder
         //set start for encoder (record position and remember)
-        start_position = m_hw.front_right.getCurrentPosition();
+        start_position = robot.front_right.getCurrentPosition();
         //set target position
         target_position = start_position + distance;
             //stop and next state
@@ -34,7 +34,7 @@ public class SlideState extends StateMachine.State {
     public void exit()
     {
         //stop
-          m_hw.drive(0.0, 0.0, 0.0);
+          robot.drive(0.0, 0.0, 0.0);
 
     }
         // Does nothing.
@@ -42,19 +42,19 @@ public class SlideState extends StateMachine.State {
 
     @Override
     public String update(double secs) {
-        int currentPosition = m_hw.front_right.getCurrentPosition();
+        int currentPosition = robot.front_right.getCurrentPosition();
         opmode.telemetry.addData("position", currentPosition);
         opmode.telemetry.addData("target", target_position);
-        if (Math.abs(target_position - currentPosition) > 30)
+        if (Math.abs(target_position - currentPosition) > 50)
         {
             //keep driving
              if(distance < 0)
              {
-                 m_hw.drive(0.0, -0.5, 0.0);
+                 robot.drive(0.0, -0.5, 0.0);
              }
              else
              {
-                 m_hw.drive(0.0, 0.5, 0.0);
+                 robot.drive(0.0, 0.5, 0.0);
              }
             return "";
         }
@@ -66,7 +66,7 @@ public class SlideState extends StateMachine.State {
     }
 
     private String next;
-    private MecanumBotHardware m_hw;
+    private MecanumBotHardware robot;
     private int start_position;
     private int distance;
     private int target_position;

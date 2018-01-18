@@ -31,6 +31,7 @@ public class DriveState extends StateMachine.State {
         //set target position
         target_position = start_position + distance;
             //stop and next state
+
     }
 
     @Override
@@ -52,15 +53,18 @@ public class DriveState extends StateMachine.State {
         int currentPosition = m_hw.front_right.getCurrentPosition();
         opmode.telemetry.addData("position", currentPosition);
         opmode.telemetry.addData("target", target_position);
-        if (Math.abs(target_position - currentPosition) > 30)
+        if (Math.abs(target_position - currentPosition) > 50)
         {
-            //keep driving
-//            m_hw.front_right.setPower(1);
-//            m_hw.front_left.setPower(1);
-//            m_hw.back_left.setPower(1);
-//            m_hw.back_right.setPower(1);
-              m_hw.drive(0.5, 0.0, 0.0);
+            if(distance < 0)
+            {
+                m_hw.drive(-0.5, 0.0, 0.0);
+            }
+            else
+            {
+                m_hw.drive(0.5, 0.0, 0.0);
+            }
             return "";
+
         }
         else
         {

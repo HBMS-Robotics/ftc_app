@@ -47,7 +47,7 @@ public class ForwardState extends StateMachine.State {
         int currentPosition = m_hw.front_right.getCurrentPosition();
         opmode.telemetry.addData("position", currentPosition);
         opmode.telemetry.addData("target", target_position);
-        if (Math.abs(target_position - currentPosition) > 30)
+        if (Math.abs(target_position - currentPosition) > 50)
         {
             //keep driving
             if(distance < 0)

@@ -70,9 +70,7 @@ public class MecanumBotHardware {
         }
         if(HAS_WRIST) {
             wrist = hwmap.get(Servo.class, "wrist");
-            wrist.setPosition(MID_SERVO);
             wrist2 = hwmap.get(Servo.class, "wrist2");
-            wrist2.setPosition(MID_SERVO);
         }
         if(HAS_CLAWS) {
             leftClaw.setPosition(MID_SERVO);

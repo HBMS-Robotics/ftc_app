@@ -1,17 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
 
-import com.qualcomm.robotcore.hardware.DcMotor;
-
 /**
  * Created by todd on 11/16/17.
  */
 
-public class DriveState extends StateMachine.State {
+public class Rotate_State extends StateMachine.State {
 
 
 
-    public DriveState(String name, MecanumBotHardware m_hw_, int distance_, String next_)
+    public Rotate_State(String name, MecanumBotHardware m_hw_, int distance_, String next_)
     {
         super(name);
         next = next_;
@@ -31,7 +29,6 @@ public class DriveState extends StateMachine.State {
         //set target position
         target_position = start_position + distance;
             //stop and next state
-
     }
 
     @Override
@@ -42,7 +39,7 @@ public class DriveState extends StateMachine.State {
 //        m_hw.front_left.setPower(0);
 //        m_hw.back_left.setPower(0);
 //        m_hw.back_right.setPower(0);
-          m_hw.drive(0.0, 0.0, 0.0,1.0f);
+          m_hw.drive(0.0, 0.0, 0.0);
 
     }
         // Does nothing.
@@ -55,14 +52,15 @@ public class DriveState extends StateMachine.State {
         opmode.telemetry.addData("target", target_position);
         if (Math.abs(target_position - currentPosition) > 50)
         {
-            if(distance < 0)
-            {
-                m_hw.drive(-0.5, 0.0, 0.0);
-            }
-            else
-            {
-                m_hw.drive(0.5, 0.0, 0.0);
-            }
+
+             if(distance < 0)
+             {
+                 m_hw.drive(0.0, 0.0, -0.5);
+             }
+             else
+             {
+                 m_hw.drive(0.0, 0.0, 0.5);
+             }
             return "";
         }
         else

@@ -87,6 +87,7 @@ public class MecanumBotHardware {
 
     public void drive(double tf, double tl, double r,float speed){
         //Drives the robot forward by tf, side by tl, and rotate by r.
+        //tf= tl= r=
         double fl=(tf-r)-tl;
         double fr=(tf+r)+tl;
         double bl=(tf-r)+tl;

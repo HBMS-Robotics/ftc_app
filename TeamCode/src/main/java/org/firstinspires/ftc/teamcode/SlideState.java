@@ -34,7 +34,7 @@ public class SlideState extends StateMachine.State {
     public void exit()
     {
         //stop
-          robot.drive(0.0, 0.0, 0.0);
+          robot.drive(0.0, 0.0, 0.0, 1.0f);
 
     }
         // Does nothing.
@@ -50,11 +50,11 @@ public class SlideState extends StateMachine.State {
             //keep driving
              if(distance < 0)
              {
-                 robot.drive(0.0, -0.5, 0.0);
+                 robot.drive(0.0, -0.5, 0.0, 1.0f);
              }
              else
              {
-                 robot.drive(0.0, 0.5, 0.0);
+                 robot.drive(0.0, 0.5, 0.0, 1.0f);
              }
             return "";
         }

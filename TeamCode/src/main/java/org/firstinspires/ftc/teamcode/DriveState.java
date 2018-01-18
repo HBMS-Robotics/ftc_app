@@ -57,11 +57,11 @@ public class DriveState extends StateMachine.State {
         {
             if(distance < 0)
             {
-                m_hw.drive(-0.5, 0.0, 0.0);
+                m_hw.drive(-0.5, 0.0, 0.0, 1.0f);
             }
             else
             {
-                m_hw.drive(0.5, 0.0, 0.0);
+                m_hw.drive(0.5, 0.0, 0.0, 1.0f);
             }
             return "";
         }

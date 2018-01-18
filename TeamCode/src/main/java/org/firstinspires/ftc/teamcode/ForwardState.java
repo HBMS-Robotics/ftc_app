@@ -32,11 +32,7 @@ public class ForwardState extends StateMachine.State {
     public void exit()
     {
         //stop
-//        m_hw.front_right.setPower(0);
-//        m_hw.front_left.setPower(0);
-//        m_hw.back_left.setPower(0);
-//        m_hw.back_right.setPower(0);
-          m_hw.drive(0.0, 0.0, 0.0);
+          m_hw.drive(0.0, 0.0, 0.0,1.0f);
 
     }
         // Does nothing.
@@ -52,11 +48,11 @@ public class ForwardState extends StateMachine.State {
             //keep driving
             if(distance < 0)
             {
-                m_hw.drive(-0.5, 0.0, 0.0);
+                m_hw.drive(-0.5, 0.0, 0.0, 1.0f);
             }
             else
             {
-                m_hw.drive(0.5, 0.0, 0.0);
+                m_hw.drive(0.5, 0.0, 0.0, 1.0f);
             }
             return "";
         }

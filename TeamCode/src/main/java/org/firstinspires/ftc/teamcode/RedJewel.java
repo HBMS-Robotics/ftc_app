@@ -22,7 +22,7 @@ public class RedJewel extends OpMode{
 
         // TODO: we must realize that there is no sweep now, there is only drive to knock off jewel
         // TODO: and then go forward or drive forward and knock off jewel while doing so.
-
+        // TODO: Checkpoint Edit.
 
 
         // Create the hardware instance and initialize it.

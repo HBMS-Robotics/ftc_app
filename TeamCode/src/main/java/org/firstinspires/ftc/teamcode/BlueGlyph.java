@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * Created by hbms on 10/17/17.
@@ -25,7 +26,8 @@ public class BlueGlyph extends OpMode{
 
         // Create the state machine and configure states.
         sm = new StateMachine(this, 16);
-        sm.addStartState(new WaitState("BriefPause", 1.0, "drive"));
+        sm.addStartState(new WaitState("BriefPause", 1.0, "arm"));
+        sm.addState(new ShoulderPose("arm", mh,4650,0.4, "drive"));
         sm.addState(new DriveState("drive", mh, 3575, "strafe"));
         sm.addState(new SlideState("strafe", mh, -2000, "drive_2"));
         sm.addState(new DriveState("drive_2", mh, 3500, "driveBack"));
@@ -40,7 +42,9 @@ public class BlueGlyph extends OpMode{
      */
     @Override
     public void init_loop() {
+
         sm.init_loop();
+        mh.shoulder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     /*

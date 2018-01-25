@@ -10,14 +10,16 @@ public class ShoulderPose extends StateMachine.State {
     int poseTicks;
     double wristMove;
     MecanumBotHardware robot;
-    public ShoulderPose(String name, MecanumBotHardware hw,int ticks,double wrist) {
+    public ShoulderPose(String name, MecanumBotHardware hw, int ticks, double wrist,  String next_) {
         super(name);
         robot = hw; // Save the reference to the hardware robot.
         poseTicks=ticks;
         wristMove=wrist;
+        next = next_;
     }
     @Override
     public void enter() {
+        robot.shoulder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.shoulder.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         robot.shoulder.setPower(1);
         robot.shoulder.setTargetPosition(poseTicks);
@@ -26,6 +28,7 @@ public class ShoulderPose extends StateMachine.State {
     }
     @Override
     public void exit() {
+
         robot.shoulder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
@@ -38,10 +41,14 @@ public class ShoulderPose extends StateMachine.State {
 //        opmode.telemetry.addData("Busy",robot.shoulder.isBusy());
         if((!robot.shoulder.isBusy())||((secs>=10.0)&&robot.wrist.getPosition()==wristMove&&!robot.touch.getState())){
             robot.shoulder.setPower(0);
-            return "MainArmTeleop";
+            return next;
         }
         else {return "";}
 
     }
+
+    private String next;
+    private int ticks_;
+    private double wrist_;
 
 }

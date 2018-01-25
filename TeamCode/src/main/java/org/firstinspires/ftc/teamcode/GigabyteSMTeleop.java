@@ -32,10 +32,10 @@ public class GigabyteSMTeleop extends OpMode{
         smArm = new StateMachine(this, 16);
         smArm.addStartState(new WaitState("wait",0.1,"MainArmTeleop"));
         smArm.addState(new GigabyteTeleopArmState("MainArmTeleop", robot));
-        smArm.addState(new ShoulderPose("Pose1",robot,0,0.12));
-        smArm.addState(new ShoulderPose("Pose2",robot,1079,0.05));
-        smArm.addState(new ShoulderPose("Pose3",robot,2602,-0.17));
-        smArm.addState(new ShoulderPose("Pose4",robot,3698,-0.35));
+        smArm.addState(new ShoulderPose("Pose1", robot,0,0.12, "MainArmTeleop"));
+        smArm.addState(new ShoulderPose("Pose2", robot,1079,0.05, "MainArmTeleop"));
+        smArm.addState(new ShoulderPose("Pose3", robot,2602,-0.17, "MainArmTeleop"));
+        smArm.addState(new ShoulderPose("Pose4", robot,3698,-0.35, "MainArmTeleop" ));
         // Init the state machine
         smDrive.init();
         smArm.init();

@@ -50,6 +50,10 @@ public class GigabyteTeleopDriveState extends  StateMachine.State {
     float f_left = 0;
     float b_right = 0;
     float b_left = 0;
+    boolean left_press_previous = false;
+    boolean left_press_current = false;
+    boolean right_press_previous = false;
+    boolean right_press_current = false;
     @Override
     public String update(double secs) {
         gpad_x = 0;
@@ -75,10 +79,14 @@ public class GigabyteTeleopDriveState extends  StateMachine.State {
 //            b_left = (gpad_y - gpad_x2)+gpad_x;
 //            b_right = (gpad_y + gpad_x2)-gpad_x;
 //        }
-        if (opmode.gamepad1.right_bumper)
-            drive_speed=Range.clip(drive_speed+0.01f,0,1);
-        else if (opmode.gamepad1.left_bumper)
-            drive_speed=Range.clip(drive_speed-0.01f,0,1);
+        left_press_current = opmode.gamepad1.left_bumper;
+        right_press_current = opmode.gamepad1.right_bumper;
+        if(left_press_previous!= left_press_current)
+            drive_speed=Range.clip(drive_speed+0.1f,0,1);
+        if(right_press_previous!= right_press_current)
+            drive_speed=Range.clip(drive_speed-0.1f,0,1);
+        left_press_current = left_press_previous;
+        right_press_current = right_press_previous;
         if(opmode.gamepad1.b){
             return "180DegSpin";
         }

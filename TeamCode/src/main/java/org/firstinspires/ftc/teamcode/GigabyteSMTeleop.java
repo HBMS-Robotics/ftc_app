@@ -27,15 +27,17 @@ public class GigabyteSMTeleop extends OpMode{
         smDrive = new StateMachine(this, 16);
         smDrive.addStartState(new WaitState("wait",0.1,"MainDriveTeleop"));
         smDrive.addState(new GigabyteTeleopDriveState("MainDriveTeleop", robot));
-        smDrive.addState(new SpinPose("180DegSpin",6417,-6382,7407,-7421,robot));
+        smDrive.addState(new SpinPose("180DegSpin",1604,robot));
+        smDrive.addState(new SpinPose("270DegSpin",2406,robot));
+        smDrive.addState(new SpinPose("90DegSpin",802,robot));
 
         smArm = new StateMachine(this, 16);
         smArm.addStartState(new WaitState("wait",0.1,"MainArmTeleop"));
         smArm.addState(new GigabyteTeleopArmState("MainArmTeleop", robot));
-        smArm.addState(new ShoulderPose("Pose1", robot,0,0.12, "MainArmTeleop"));
-        smArm.addState(new ShoulderPose("Pose2", robot,1079,0.05, "MainArmTeleop"));
-        smArm.addState(new ShoulderPose("Pose3", robot,2602,-0.17, "MainArmTeleop"));
-        smArm.addState(new ShoulderPose("Pose4", robot,3698,-0.35, "MainArmTeleop" ));
+        smArm.addState(new ShoulderPose("Pose1", robot,0, "MainArmTeleop"));//0.12
+        smArm.addState(new ShoulderPose("Pose2", robot,1079, "MainArmTeleop"));//0.05
+        smArm.addState(new ShoulderPose("Pose3", robot,2602, "MainArmTeleop"));//-0.17
+        smArm.addState(new ShoulderPose("Pose4", robot,3698, "MainArmTeleop" ));//-0.35
         // Init the state machine
         smDrive.init();
         smArm.init();

@@ -34,7 +34,7 @@ public class MecanumBotHardware {
     public MecanumBotHardware(boolean _IS_USING_FOUR_MOTORS,boolean _HAS_SHOULDER, boolean _HAS_WRIST, boolean _HAS_CLAWS){
         IS_USING_FOUR_MOTORS=_IS_USING_FOUR_MOTORS;
         HAS_SHOULDER=_HAS_SHOULDER;
-        HAS_WRIST=_HAS_WRIST;
+        HAS_WRIST=false;
         HAS_CLAWS=_HAS_CLAWS;
     }
 

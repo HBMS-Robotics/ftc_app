@@ -27,7 +27,7 @@ public class BlueGlyph extends OpMode{
         // Create the state machine and configure states.
         sm = new StateMachine(this, 16);
         sm.addStartState(new WaitState("BriefPause", 1.0, "arm"));
-        sm.addState(new ShoulderPose("arm", mh,4650,0.4, "drive"));
+        sm.addState(new ShoulderPose("arm", mh,4650, "drive"));//0.4
         sm.addState(new DriveState("drive", mh, 3575, "strafe"));
         sm.addState(new SlideState("strafe", mh, -2000, "drive_2"));
         sm.addState(new DriveState("drive_2", mh, 3500, "driveBack"));

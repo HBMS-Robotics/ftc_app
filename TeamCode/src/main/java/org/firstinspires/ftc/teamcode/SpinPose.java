@@ -6,24 +6,23 @@ package org.firstinspires.ftc.teamcode;
 
 public class SpinPose extends StateMachine.State {
     int bl,br,fl,fr;
+    float power;
     MecanumBotHardware robot;
-    public SpinPose(String name,int bl_,int br_,int fl_,int fr_,MecanumBotHardware robot_){
+    public SpinPose(String name,int bl_,MecanumBotHardware robot_,float pwr){
         super(name);
         bl=bl_;
-        br=br_;
-        fl=fl_;
-        fr=fr_;
         robot=robot_;
+        power=pwr;
     }
     int start,end;
     @Override
     public void enter(){
         start=robot.back_left.getCurrentPosition();
         end=start+bl;
-        robot.back_left.setPower(Math.signum(bl));
-        robot.back_right.setPower(-Math.signum(bl));
-        robot.front_left.setPower(Math.signum(bl));
-        robot.front_right.setPower(-Math.signum(bl));
+        robot.back_left.setPower(Math.signum(bl)*power);
+        robot.back_right.setPower(-Math.signum(bl)*power);
+        robot.front_left.setPower(Math.signum(bl)*power);
+        robot.front_right.setPower(-Math.signum(bl)*power);
     }
     @Override
     public void exit(){

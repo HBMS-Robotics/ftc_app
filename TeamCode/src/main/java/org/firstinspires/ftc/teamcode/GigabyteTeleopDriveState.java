@@ -109,7 +109,7 @@ public class GigabyteTeleopDriveState extends  StateMachine.State {
             robot.back_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             robot.back_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
-        else if(opmode.gamepad1.right_bumper){
+        else{
             robot.front_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             robot.front_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
             robot.back_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);

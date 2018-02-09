@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -8,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  * Created by hbms on 10/17/17.
  */
 @Autonomous(name="VUFORIATest", group="Autonomous")
+@Disabled
 public class VUFORIAtest extends OpMode{
 
     /* Declare OpMode members. */

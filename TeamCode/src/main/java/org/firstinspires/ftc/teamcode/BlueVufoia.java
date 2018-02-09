@@ -24,14 +24,17 @@ public class BlueVufoia extends OpMode{
         // Create the state machine and configure states.
         sm = new StateMachine(this, 16);
         sm.addStartState(new WaitState("BriefPause", 1.0, "sense"));
-        sm.addState(new VuforiaSense("sense", "L", "R", "M"));
-        sm.addState(new DriveState("L", mh, 900, "Lstrafe"));
+        sm.addState(new VuforiaSense("sense", "left", "right", "middle"));
+        sm.addState(new WaitState("left", 5.0, "leftdirve"));
+        sm.addState(new DriveState("leftdrive", mh, 1000, "Lstrafe"));
         sm.addState(new SlideState("Lstrafe", mh, 500, "drive"));
-        sm.addState(new DriveState("R", mh, 900, "Rstrafe"));
+        sm.addState(new WaitState("right", 5.0, "rightdrive"));
+        sm.addState(new DriveState("rightdrive", mh, 1000, "Rstrafe"));
         sm.addState(new SlideState("Rstrafe", mh, 1500, "drive"));
-        sm.addState(new DriveState("M", mh, 900, "Mstrafe"));
+        sm.addState(new WaitState("middle", 5.0, "middledrive"));
+        sm.addState(new DriveState("middledrive", mh, 1000, "Mstrafe"));
         sm.addState(new SlideState("Mstrafe", mh, 1000, "drive"));
-        sm.addState(new DriveState("drive", mh, 875, "driveBack"));
+        sm.addState(new DriveState("drive", mh, 750, "driveBack"));
         sm.addState(new DriveState("driveBack", mh, -125, "terminal"));
         sm.addState(new TerminalState("terminal"));
         // Init the state machine

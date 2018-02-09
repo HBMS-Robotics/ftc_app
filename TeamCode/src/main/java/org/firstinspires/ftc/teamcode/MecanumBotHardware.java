@@ -92,8 +92,8 @@ public class MecanumBotHardware {
             leftClawLower.setDirection(Servo.Direction.FORWARD);
             rightClawLower.setDirection(Servo.Direction.REVERSE);
         }
-        touch=hwmap.get(DigitalChannel.class,"touch");
-        touch2=hwmap.get(DigitalChannel.class,"touch2");
+        touch = hwmap.get(DigitalChannel.class,"touch");
+        touch2 = hwmap.get(DigitalChannel.class,"touch2");
     }
 
     public void drive(double tf, double tl, double r,float speed,float clip){
@@ -125,7 +125,6 @@ public class MecanumBotHardware {
                     shoulder.setPower(0);
                     shoulder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
                     shoulder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
                 }
             }
         }

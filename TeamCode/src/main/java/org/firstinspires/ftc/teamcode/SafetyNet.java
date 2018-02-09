@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 public class SafetyNet extends OpMode{
 
     /* Declare OpMode members. */
-    JewelTailHardware jt = null;
     MecanumBotHardware mh = null;
     StateMachine sm = null;
 
@@ -18,9 +17,7 @@ public class SafetyNet extends OpMode{
     public void init() {
 
         // Create the hardware instance and initialize it.
-        jt = new JewelTailHardware();
         mh = new MecanumBotHardware(true, true, true, true);
-        jt.init(hardwareMap);
         mh.init(hardwareMap);
 
         // Create the state machine and configure states.

@@ -19,9 +19,7 @@ public class RedGlyph extends OpMode{
     public void init() {
 
         // Create the hardware instance and initialize it.
-        jt = new JewelTailHardware();
         mh = new MecanumBotHardware(true, true, true, true);
-        jt.init(hardwareMap);
         mh.init(hardwareMap);
 
         // Create the state machine and configure states.

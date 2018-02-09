@@ -15,7 +15,6 @@ public class GigabyteTeleopArmState extends  StateMachine.State {
     // HardwareMap hardwareMap;
     MecanumBotHardware robot;
     double          clawOffset  = 0.0 ;                  // Servo mid position
-//    double          wristOffset  = 0.0 ;                  // Servo mid position
     final double    CLAW_SPEED  = 0.04 ;                 // sets rate to move servo
     double arm_move =0;
     double armspeed=1;
@@ -106,22 +105,13 @@ public class GigabyteTeleopArmState extends  StateMachine.State {
             robot.leftClawLower.setPosition(robot.MID_SERVO + clawOffset);
             robot.rightClawLower.setPosition(robot.MID_SERVO + clawOffset);
         }
-//        if(robot.HAS_WRIST) {
-//            if(opmode.gamepad2.a) {
-//                int maxTicks=5763;
-//                wristOffset=0.25-0.8*robot.shoulder.getCurrentPosition()/maxTicks;
-//            }
-//            robot.wrist.setPosition(robot.MID_SERVO + wristOffset);
-//            robot.wrist2.setPosition(1 - (robot.MID_SERVO + wristOffset));
-//        }
+
         // Use gamepad buttons to move the arm up (Y) and down (A)
         // Send telemetry message to signify robot running;
         if(robot.HAS_CLAWS) {
             opmode.telemetry.addData("Claw", "Offset = %.2f", clawOffset);
         }
-//        if(robot.HAS_WRIST){
-//            opmode.telemetry.addData("Wrist", "Offset = %.2f", wristOffset);
-//        }
+
         if(robot.HAS_SHOULDER) {
             opmode.telemetry.addData("Arm Position", robot.shoulder.getCurrentPosition());
         }

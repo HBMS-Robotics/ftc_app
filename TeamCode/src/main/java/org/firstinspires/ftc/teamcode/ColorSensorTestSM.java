@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 public class ColorSensorTestSM extends OpMode{
 
     /* Declare OpMode members. */
-    JewelTailHardware jt = null;
+//    JewelTailHardware jt = null;
     StateMachine sm = null;
 
     @Override
@@ -25,17 +25,18 @@ public class ColorSensorTestSM extends OpMode{
 
 
         // Create the hardware instance and initialize it.
-        jt = new JewelTailHardware();
-        jt.init(hardwareMap);
+       // jt = new JewelTailHardware();
+       // jt.init(hardwareMap);
 
         // Create the state machine and configure states.
         sm = new StateMachine(this, 16);
         sm.addStartState(new WaitState("BriefPause", 1.0, "sense"));
-        sm.addState(new ColorSensorState("sense", jt, "next_b", "next_r", "nest_else"));
-        sm.addState(new JewelTailPosition("next_b", jt, "terminal", 0.8));
-        sm.addState(new JewelTailPosition("next_r", jt, "terminal", -0.8));
-        sm.addState(new JewelTailPosition("next_else", jt, "terminal", 0.0));
-        sm.addState(new TerminalState("terminal"));
+
+       // sm.addState(new ColorSensorState("sense", jt, "next_b", "next_r", "nest_else"));
+       // sm.addState(new JewelTailPosition("next_b", jt, "terminal", 0.8));
+       // sm.addState(new JewelTailPosition("next_r", jt, "terminal", -0.8));
+       // sm.addState(new JewelTailPosition("next_else", jt, "terminal", 0.0));
+       sm.addState(new TerminalState("terminal"));
         // Init the state machine
         sm.init();
     }

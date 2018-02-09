@@ -3,42 +3,31 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * Created by hbms on 10/17/17.
  */
-@Autonomous(name="VUFORIATest", group="Autonomous")
-@Disabled
-public class VUFORIAtest extends OpMode{
+@Autonomous(name="VuforiaTest", group="Autonomous")
+//@Disabled
+public class VuforiaTest extends OpMode{
 
     /* Declare OpMode members. */
-    MecanumBotHardware mh = null;
+
     StateMachine sm = null;
 
     @Override
     public void init() {
 
         // Create the hardware instance and initialize it.
-        mh = new MecanumBotHardware(true, true, true, true);
-        mh.init(hardwareMap);
+
 
         // Create the state machine and configure states.
         sm = new StateMachine(this, 16);
         sm.addStartState(new WaitState("BriefPause", 1.0, "sense"));
-        sm.addState(new VuforiaSense("sense", "left", "right", "middle"));
-        sm.addState(new WaitState("left", 5.0, "leftdirve"));
-        sm.addState(new DriveState("leftdrive", mh, 900, "Lstrafe"));
-        sm.addState(new SlideState("Lstrafe", mh, -500, "drive"));
-        sm.addState(new WaitState("right", 5.0, "rightdrive"));
-        sm.addState(new DriveState("rightdrive", mh, 900, "Rstrafe"));
-        sm.addState(new SlideState("Rstrafe", mh, -1500, "drive"));
-        sm.addState(new WaitState("middle", 5.0, "middledrive"));
-        sm.addState(new DriveState("middledrive", mh, 900, "Mstrafe"));
-        sm.addState(new SlideState("Mstrafe", mh, -1000, "drive"));
-        sm.addState(new DriveState("drive", mh, 875, "driveBack"));
-        sm.addState(new DriveState("driveBack", mh, -125, "terminal"));
-        sm.addState(new TerminalState("terminal"));
+        sm.addState(new VuforiaSense("sense", "L", "M", "R"));
+        sm.addState(new WaitState("L", 5.0, ""));
+        sm.addState(new WaitState("M", 5.0, ""));
+        sm.addState(new WaitState("R", 5.0, ""));
         // Init the state machine
         sm.init();
     }
@@ -48,9 +37,7 @@ public class VUFORIAtest extends OpMode{
      */
     @Override
     public void init_loop() {
-
         sm.init_loop();
-        mh.shoulder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     /*

@@ -22,14 +22,14 @@ public class GigabyteSMTeleop extends OpMode{
         // Create the hardware instance and initialize it.
         robot = new MecanumBotHardware(true,true,true,true);
         robot.init(hardwareMap);
-
+        int deg180=845;
         // Create the state machine and configure states.
         smDrive = new StateMachine(this, 16);
         smDrive.addStartState(new WaitState("wait",0.1,"MainDriveTeleop"));
         smDrive.addState(new GigabyteTeleopDriveState("MainDriveTeleop", robot));
-        smDrive.addState(new SpinPose("180DegSpin",1604,robot,0.5f));
-        smDrive.addState(new SpinPose("270DegSpin",2406,robot,0.5f));
-        smDrive.addState(new SpinPose("90DegSpin",802,robot,0.5f));
+        smDrive.addState(new SpinPose("90DegSpin",(int)(deg180*0.5),robot,0.1f));
+        smDrive.addState(new SpinPose("180DegSpin",deg180,robot,0.1f));
+        smDrive.addState(new SpinPose("270DegSpin",(int)(deg180*1.5),robot,0.1f));
 
         smArm = new StateMachine(this, 16);
         smArm.addStartState(new WaitState("wait",0.1,"MainArmTeleop"));

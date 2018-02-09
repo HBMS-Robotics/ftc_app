@@ -29,6 +29,7 @@ public class MecanumBotHardware {
     public Servo   rightClawLower = null;
     public DcMotor  shoulder = null;
     public DigitalChannel touch;
+    public DigitalChannel touch2;
     public static final double MID_SERVO       =  0.5 ;
     public static final double ARM_UP_POWER    =  0.55 ;
     public static final double ARM_DOWN_POWER  = -0.45 ;
@@ -91,6 +92,7 @@ public class MecanumBotHardware {
             rightClawLower.setDirection(Servo.Direction.REVERSE);
         }
         touch=hwmap.get(DigitalChannel.class,"touch");
+        touch2=hwmap.get(DigitalChannel.class,"touch2");
     }
 
     public void drive(double tf, double tl, double r,float speed,float clip){
@@ -113,6 +115,20 @@ public class MecanumBotHardware {
         back_left.setPower(bl);
         back_right.setPower(br);
     }
+    public void set(double arm_move){
+        shoulder.setPower(-0.6);
+        while(true) {
+            if (HAS_SHOULDER) {
+                if (!touch.getState()) {
+                    arm_move = 0;
+                    shoulder.setPower(0);
+                    shoulder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    shoulder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+                }
+            }
+        }
+    }
     public void drive(double tf, double tl, double r,float speed){
         //Drives the robot forward by tf, side by tl, and rotate by r.
         //tf= tl= r=
@@ -130,8 +146,12 @@ public class MecanumBotHardware {
         back_right.setPower(br);
     }
     public static float logCurve(float num){
-        float expBase=10;
-        return (float)(num/Math.abs(num))*((float)Math.pow(expBase,Math.abs(num)))/((float)expBase-1);
+        float sqBase=2;
+        if(num==0)
+            return 0;
+        else
+            return (float) (Math.signum(num) * Math.pow(Math.abs(num),sqBase));
+
     }
 //    public void driveToPosition(float tf,float tl, float r){
 //        //Resets encoders.

@@ -20,7 +20,7 @@ public class ShoulderPose extends StateMachine.State {
     public void enter() {
         robot.shoulder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.shoulder.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.shoulder.setPower(1);
+        robot.shoulder.setPower(0.6);
         robot.shoulder.setTargetPosition(poseTicks);
 //        robot.wrist.setPosition(wristMove+0.5);
 //        robot.wrist2.setPosition(0.5-wristMove);

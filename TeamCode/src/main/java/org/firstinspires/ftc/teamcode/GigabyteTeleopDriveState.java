@@ -79,16 +79,16 @@ public class GigabyteTeleopDriveState extends  StateMachine.State {
 //            drive_speed=Range.clip(drive_speed+0.125f,0,0.5f);
 //        if(!right_press_previous&&right_press_current)
 //            drive_speed=Range.clip(drive_speed-0.125f,0,0.5f);
-        if(opmode.gamepad1.a){
+        if(!opmode.gamepad1.right_bumper&&!(opmode.gamepad1.right_trigger>=0.5)){
             drive_speed=0.25f*scale;
         }
-        if(opmode.gamepad1.x){
+        if(opmode.gamepad1.right_bumper&&!(opmode.gamepad1.right_trigger>=0.5)){
             drive_speed=0.5f*scale;
         }
-        if(opmode.gamepad1.b){
+        if(!opmode.gamepad1.right_bumper&&(opmode.gamepad1.right_trigger>=0.5)){
             drive_speed=0.75f*scale;
         }
-        if(opmode.gamepad1.y){
+        if(opmode.gamepad1.right_bumper&&(opmode.gamepad1.right_trigger>=0.5)){
             drive_speed=scale;
         }
         drive_speed=Range.clip(drive_speed,0,1);
@@ -103,17 +103,22 @@ public class GigabyteTeleopDriveState extends  StateMachine.State {
         }
         opmode.telemetry.addData("X", "%f", gpad_x);
         opmode.telemetry.addData("Y", "%f", gpad_y);
-        if(opmode.gamepad1.left_bumper){
+        if(opmode.gamepad1.x){
             robot.front_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             robot.front_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             robot.back_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             robot.back_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
-        else{
-            robot.front_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            robot.front_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            robot.back_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-            robot.back_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        else {
+            if (robot.front_left.getZeroPowerBehavior() == DcMotor.ZeroPowerBehavior.BRAKE ||
+                    robot.front_right.getZeroPowerBehavior() == DcMotor.ZeroPowerBehavior.BRAKE ||
+                    robot.back_left.getZeroPowerBehavior() == DcMotor.ZeroPowerBehavior.BRAKE ||
+                    robot.back_right.getZeroPowerBehavior() == DcMotor.ZeroPowerBehavior.BRAKE) {
+                robot.front_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                robot.front_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                robot.back_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+                robot.back_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+            }
         }
 //        robot.back_left.setPower(Range.clip(b_left,-1,1));
 //        robot.back_right.setPower(Range.clip(b_right,-1,1));

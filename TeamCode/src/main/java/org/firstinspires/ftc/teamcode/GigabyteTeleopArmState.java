@@ -18,7 +18,8 @@ public class GigabyteTeleopArmState extends  StateMachine.State {
 //    double          wristOffset  = 0.0 ;                  // Servo mid position
     final double    CLAW_SPEED  = 0.04 ;                 // sets rate to move servo
     double arm_move =0;
-    float armspeed=1;
+    double armspeed=1;
+    double armscale=0.5;
     int             shoulderOffset = 0;
     public GigabyteTeleopArmState(String name, MecanumBotHardware hw) {
         super(name);
@@ -27,7 +28,7 @@ public class GigabyteTeleopArmState extends  StateMachine.State {
 
     @Override
     public void enter() {
-        // Does nothing.
+
     }
 
     @Override
@@ -61,12 +62,24 @@ public class GigabyteTeleopArmState extends  StateMachine.State {
 //            wristOffset=-0.35;
             return "Pose4";
         }
+        if(opmode.gamepad2.a){
+            armspeed=0.25*armscale;
+        }
+        if(opmode.gamepad2.x){
+            armspeed=0.5*armscale;
+        }
+        if(opmode.gamepad2.b){
+            armspeed=0.75*armscale;
+        }
+        if(opmode.gamepad2.y){
+            armspeed=armscale;
+        }
 //        if(robot.HAS_WRIST) {
 //            wristOffset+=-0.025*opmode.gamepad2.right_stick_y;
 //            wristOffset=Range.clip(wristOffset,-0.5,0.5);
 //        }
         if(robot.HAS_SHOULDER) {
-            arm_move = -0.4*opmode.gamepad2.left_stick_y;
+            arm_move = -opmode.gamepad2.left_stick_y;
             arm_move=robot.logCurve((float)arm_move);
             if(!robot.touch.getState()&&arm_move<0) {
                 arm_move = 0;
@@ -76,7 +89,14 @@ public class GigabyteTeleopArmState extends  StateMachine.State {
             else {
                 robot.shoulder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             }
-            robot.shoulder.setPower(arm_move);
+            if(!robot.touch2.getState()&&arm_move>0) {
+                arm_move = 0;
+                robot.shoulder.setPower(0);
+            }
+            else {
+                robot.shoulder.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+            robot.shoulder.setPower(armspeed*arm_move);
 
         }
         // Move both servos to new position.  Assume servos are mirror image of each other.

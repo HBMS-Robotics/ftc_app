@@ -15,7 +15,7 @@ public class GigabyteTeleopDriveState extends  StateMachine.State {
     // HardwareMap hardwareMap;
     MecanumBotHardware robot;
     float drive_speed=0.5f;
-    float scale=0.5f;
+    float scale=0.25f;
     float clip=0.5f;
     public GigabyteTeleopDriveState(String name, MecanumBotHardware hw) {
         super(name);
@@ -65,6 +65,7 @@ public class GigabyteTeleopDriveState extends  StateMachine.State {
         gpad_x= robot.logCurve(gpad_x);
         gpad_y= robot.logCurve(gpad_y);
         gpad_x2= robot.logCurve(gpad_x2);
+        gpad_x*=-1;
         robot.drive(gpad_y,gpad_x,gpad_x2,drive_speed,clip);
 //        b_left = (gpad_y - gpad_x2);
 //        b_right = (gpad_y + gpad_x2);
@@ -79,16 +80,16 @@ public class GigabyteTeleopDriveState extends  StateMachine.State {
 //            drive_speed=Range.clip(drive_speed+0.125f,0,0.5f);
 //        if(!right_press_previous&&right_press_current)
 //            drive_speed=Range.clip(drive_speed-0.125f,0,0.5f);
-        if(!opmode.gamepad1.right_bumper&&!(opmode.gamepad1.right_trigger>=0.5)){
+        if(opmode.gamepad1.a){
             drive_speed=0.25f*scale;
         }
-        if(opmode.gamepad1.right_bumper&&!(opmode.gamepad1.right_trigger>=0.5)){
+        else if(opmode.gamepad1.x){
             drive_speed=0.5f*scale;
         }
-        if(!opmode.gamepad1.right_bumper&&(opmode.gamepad1.right_trigger>=0.5)){
+        else if(opmode.gamepad1.b){
             drive_speed=0.75f*scale;
         }
-        if(opmode.gamepad1.right_bumper&&(opmode.gamepad1.right_trigger>=0.5)){
+        else if(opmode.gamepad1.y){
             drive_speed=scale;
         }
         drive_speed=Range.clip(drive_speed,0,1);
@@ -103,7 +104,7 @@ public class GigabyteTeleopDriveState extends  StateMachine.State {
         }
         opmode.telemetry.addData("X", "%f", gpad_x);
         opmode.telemetry.addData("Y", "%f", gpad_y);
-        if(opmode.gamepad1.x){
+        if(opmode.gamepad1.left_trigger>=0.9){
             robot.front_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             robot.front_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             robot.back_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

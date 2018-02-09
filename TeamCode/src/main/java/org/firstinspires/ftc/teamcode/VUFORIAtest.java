@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 /**
  * Created by hbms on 10/17/17.
  */
-@Autonomous(name="RedVuforia", group="Autonomous")
+@Autonomous(name="VUFORIATest", group="Autonomous")
 public class VUFORIAtest extends OpMode{
 
     /* Declare OpMode members. */

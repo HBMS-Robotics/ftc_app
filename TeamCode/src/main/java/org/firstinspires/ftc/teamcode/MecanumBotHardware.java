@@ -31,8 +31,6 @@ public class MecanumBotHardware {
     public DigitalChannel touch;
     public DigitalChannel touch2;
     public static final double MID_SERVO       =  0.5 ;
-    public static final double ARM_UP_POWER    =  0.55 ;
-    public static final double ARM_DOWN_POWER  = -0.45 ;
     public MecanumBotHardware(boolean _IS_USING_FOUR_MOTORS,boolean _HAS_SHOULDER, boolean _HAS_WRIST, boolean _HAS_CLAWS){
         IS_USING_FOUR_MOTORS=_IS_USING_FOUR_MOTORS;
         HAS_SHOULDER=_HAS_SHOULDER;

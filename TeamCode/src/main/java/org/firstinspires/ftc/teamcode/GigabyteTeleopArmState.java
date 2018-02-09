@@ -15,6 +15,7 @@ public class GigabyteTeleopArmState extends  StateMachine.State {
     // HardwareMap hardwareMap;
     MecanumBotHardware robot;
     double          clawOffset  = 0.0 ;                  // Servo mid position
+    double          clawOffsetLower  = 0.0 ;                  // Servo mid position
     final double    CLAW_SPEED  = 0.04 ;                 // sets rate to move servo
     double arm_move =0;
     double armspeed=1;
@@ -41,7 +42,6 @@ public class GigabyteTeleopArmState extends  StateMachine.State {
      */
     @Override
     public String update(double secs) {
-        clawOffset=robot.leftClaw.getPosition()-0.5;
         if (opmode.gamepad2.right_bumper)
             clawOffset += CLAW_SPEED;
         else if (opmode.gamepad2.left_bumper)
@@ -99,11 +99,23 @@ public class GigabyteTeleopArmState extends  StateMachine.State {
         }
         // Move both servos to new position.  Assume servos are mirror image of each other.
         clawOffset = Range.clip(clawOffset, -0.5, 0.5);
+        if(opmode.gamepad2.right_bumper){
+            clawOffset=1;
+        }
+        if(opmode.gamepad2.left_bumper){
+            clawOffset=0;
+        }
+        if(opmode.gamepad2.right_trigger>=0.5){
+            clawOffsetLower=1;
+        }
+        if(opmode.gamepad2.left_trigger>=0.5){
+            clawOffsetLower=0;
+        }
         if(robot.HAS_CLAWS) {
             robot.leftClaw.setPosition(robot.MID_SERVO + clawOffset);
             robot.rightClaw.setPosition(robot.MID_SERVO + clawOffset);
-            robot.leftClawLower.setPosition(robot.MID_SERVO + clawOffset);
-            robot.rightClawLower.setPosition(robot.MID_SERVO + clawOffset);
+            robot.leftClawLower.setPosition(robot.MID_SERVO + clawOffsetLower);
+            robot.rightClawLower.setPosition(robot.MID_SERVO + clawOffsetLower);
         }
 
         // Use gamepad buttons to move the arm up (Y) and down (A)

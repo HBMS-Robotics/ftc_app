@@ -104,7 +104,7 @@ public class GigabyteTeleopDriveState extends  StateMachine.State {
         }
         opmode.telemetry.addData("X", "%f", gpad_x);
         opmode.telemetry.addData("Y", "%f", gpad_y);
-        if(opmode.gamepad1.left_trigger>=0.9){
+        if(opmode.gamepad1.left_trigger>=0.8){
             robot.front_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             robot.front_right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             robot.back_left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

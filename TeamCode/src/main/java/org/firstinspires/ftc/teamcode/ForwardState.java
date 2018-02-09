@@ -17,6 +17,7 @@ public class ForwardState extends StateMachine.State {
         distance = distance_;
         start_position = 0;
         target_position = 0;
+        speed = 0.25f;
     }
 
     @Override
@@ -32,7 +33,7 @@ public class ForwardState extends StateMachine.State {
     public void exit()
     {
         //stop
-          m_hw.drive(0.0, 0.0, 0.0,1.0f);
+          m_hw.drive(0.0, 0.0, 0.0, speed);
 
     }
         // Does nothing.
@@ -43,16 +44,16 @@ public class ForwardState extends StateMachine.State {
         int currentPosition = m_hw.front_right.getCurrentPosition();
         opmode.telemetry.addData("position", currentPosition);
         opmode.telemetry.addData("target", target_position);
-        if (Math.abs(target_position - currentPosition) > 50)
+        if (Math.abs(target_position - currentPosition) > 30)
         {
             //keep driving
             if(distance < 0)
             {
-                m_hw.drive(-0.5, 0.0, 0.0, 1.0f);
+                m_hw.drive(-0.5, 0.0, 0.0, speed);
             }
             else
             {
-                m_hw.drive(0.5, 0.0, 0.0, 1.0f);
+                m_hw.drive(0.5, 0.0, 0.0, speed);
             }
             return "";
         }
@@ -69,5 +70,6 @@ public class ForwardState extends StateMachine.State {
     private int start_position;
     private int distance;
     private int target_position;
+    private float speed;
 
 }

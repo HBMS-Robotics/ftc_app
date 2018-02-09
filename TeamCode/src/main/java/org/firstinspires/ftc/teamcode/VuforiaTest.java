@@ -1,33 +1,33 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 /**
  * Created by hbms on 10/17/17.
  */
-@Autonomous(name="SafetyNet", group="Autonomous")
-public class SafetyNet extends OpMode{
+@Autonomous(name="VuforiaTest", group="Autonomous")
+@Disabled
+public class VuforiaTest extends OpMode{
 
     /* Declare OpMode members. */
-    JewelTailHardware jt = null;
-    MecanumBotHardware mh = null;
+
     StateMachine sm = null;
 
     @Override
     public void init() {
 
         // Create the hardware instance and initialize it.
-        jt = new JewelTailHardware();
-        mh = new MecanumBotHardware(true, true, true, true);
-        jt.init(hardwareMap);
-        mh.init(hardwareMap);
+
 
         // Create the state machine and configure states.
         sm = new StateMachine(this, 16);
-        sm.addStartState(new WaitState("BriefPause", 1.0, "drive"));
-        sm.addStartState(new DriveState("drive", mh, 1050, "terminal"));
-        sm.addState(new TerminalState("terminal"));
+        sm.addStartState(new WaitState("BriefPause", 1.0, "sense"));
+        sm.addState(new VuforiaSense("sense", "L", "M", "R"));
+        sm.addState(new WaitState("L", 5.0, ""));
+        sm.addState(new WaitState("M", 5.0, ""));
+        sm.addState(new WaitState("R", 5.0, ""));
         // Init the state machine
         sm.init();
     }

@@ -2,12 +2,13 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * Created by hbms on 10/17/17.
  */
-@Autonomous(name="SafetyNet", group="Autonomous")
-public class SafetyNet extends OpMode{
+@Autonomous(name="BlueVuforia", group="Autonomous")
+public class BlueVufoia extends OpMode{
 
     /* Declare OpMode members. */
     JewelTailHardware jt = null;
@@ -25,8 +26,16 @@ public class SafetyNet extends OpMode{
 
         // Create the state machine and configure states.
         sm = new StateMachine(this, 16);
-        sm.addStartState(new WaitState("BriefPause", 1.0, "drive"));
-        sm.addStartState(new DriveState("drive", mh, 1050, "terminal"));
+        sm.addStartState(new WaitState("BriefPause", 1.0, "sense"));
+        sm.addState(new VuforiaSense("sense", "L", "R", "M"));
+        sm.addState(new DriveState("L", mh, 900, "Lstrafe"));
+        sm.addState(new SlideState("Lstrafe", mh, 500, "drive"));
+        sm.addState(new DriveState("R", mh, 900, "Rstrafe"));
+        sm.addState(new SlideState("Rstrafe", mh, 1500, "drive"));
+        sm.addState(new DriveState("M", mh, 900, "Mstrafe"));
+        sm.addState(new SlideState("Mstrafe", mh, 1000, "drive"));
+        sm.addState(new DriveState("drive", mh, 875, "driveBack"));
+        sm.addState(new DriveState("driveBack", mh, -125, "terminal"));
         sm.addState(new TerminalState("terminal"));
         // Init the state machine
         sm.init();
@@ -37,7 +46,9 @@ public class SafetyNet extends OpMode{
      */
     @Override
     public void init_loop() {
+
         sm.init_loop();
+        mh.shoulder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
     /*

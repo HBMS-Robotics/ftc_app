@@ -17,6 +17,7 @@ public class SlideState extends StateMachine.State {
         distance = distance_;
         start_position = 0;
         target_position = 0;
+        speed = 0.1f;
     }
 
     @Override
@@ -34,7 +35,7 @@ public class SlideState extends StateMachine.State {
     public void exit()
     {
         //stop
-          robot.drive(0.0, 0.0, 0.0, 1.0f);
+          robot.drive(0.0, 0.0, 0.0, 0.0f);
 
     }
         // Does nothing.
@@ -45,16 +46,16 @@ public class SlideState extends StateMachine.State {
         int currentPosition = robot.front_right.getCurrentPosition();
         opmode.telemetry.addData("position", currentPosition);
         opmode.telemetry.addData("target", target_position);
-        if (Math.abs(target_position - currentPosition) > 50)
+        if (Math.abs(target_position - currentPosition) > 30)
         {
             //keep driving
              if(distance < 0)
              {
-                 robot.drive(0.0, -0.5, 0.0, 1.0f);
+                 robot.drive(0.0, -0.5, 0.0, speed);
              }
              else
              {
-                 robot.drive(0.0, 0.5, 0.0, 1.0f);
+                 robot.drive(0.0, 0.5, 0.0, speed);
              }
             return "";
         }
@@ -70,5 +71,6 @@ public class SlideState extends StateMachine.State {
     private int start_position;
     private int distance;
     private int target_position;
+    public float speed;
 
 }

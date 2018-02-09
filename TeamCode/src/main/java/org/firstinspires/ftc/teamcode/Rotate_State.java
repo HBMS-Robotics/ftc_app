@@ -15,6 +15,7 @@ public class Rotate_State extends StateMachine.State {
         next = next_;
         m_hw = m_hw_;
         distance = distance_;
+        speed = 0.1f;
 
         start_position = 0;
         target_position = 0;
@@ -35,7 +36,7 @@ public class Rotate_State extends StateMachine.State {
     public void exit()
     {
         //stop
-          m_hw.drive(0.0, 0.0, 0.0, 1.0f);
+          m_hw.drive(0.0, 0.0, 0.0, 0.0f);
 
     }
         // Does nothing.
@@ -46,16 +47,16 @@ public class Rotate_State extends StateMachine.State {
         int currentPosition = m_hw.front_right.getCurrentPosition();
         opmode.telemetry.addData("position", currentPosition);
         opmode.telemetry.addData("target", target_position);
-        if (Math.abs(target_position - currentPosition) > 50)
+        if (Math.abs(target_position - currentPosition) > 30)
         {
 
              if(distance < 0)
              {
-                 m_hw.drive(0.0, 0.0, -0.5, 1.0f);
+                 m_hw.drive(0.0, 0.0, -0.5, speed);
              }
              else
              {
-                 m_hw.drive(0.0, 0.0, 0.5, 1.0f);
+                 m_hw.drive(0.0, 0.0, 0.5, speed);
              }
             return "";
         }
@@ -71,5 +72,5 @@ public class Rotate_State extends StateMachine.State {
     private int start_position;
     private int distance;
     private int target_position;
-
+    private float speed;
 }

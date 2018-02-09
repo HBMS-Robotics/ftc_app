@@ -10,21 +10,20 @@ public class ShoulderPose extends StateMachine.State {
     int poseTicks;
     double wristMove;
     MecanumBotHardware robot;
-    public ShoulderPose(String name, MecanumBotHardware hw, int ticks, double wrist,  String next_) {
+    public ShoulderPose(String name, MecanumBotHardware hw, int ticks,  String next_) {
         super(name);
         robot = hw; // Save the reference to the hardware robot.
         poseTicks=ticks;
-        wristMove=wrist;
         next = next_;
     }
     @Override
     public void enter() {
         robot.shoulder.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.shoulder.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.shoulder.setPower(1);
+        robot.shoulder.setPower(0.6);
         robot.shoulder.setTargetPosition(poseTicks);
-        robot.wrist.setPosition(wristMove+0.5);
-        robot.wrist2.setPosition(0.5-wristMove);
+//        robot.wrist.setPosition(wristMove+0.5);
+//        robot.wrist2.setPosition(0.5-wristMove);
     }
     @Override
     public void exit() {
@@ -39,7 +38,7 @@ public class ShoulderPose extends StateMachine.State {
 //        opmode.telemetry.addData("Target",robot.shoulder.getTargetPosition());
 //        opmode.telemetry.addData("Time",secs);
 //        opmode.telemetry.addData("Busy",robot.shoulder.isBusy());
-        if((!robot.shoulder.isBusy())||((secs>=10.0)&&robot.wrist.getPosition()==wristMove&&!robot.touch.getState())){
+        if((!robot.shoulder.isBusy())||((secs>=10.0)&&!robot.touch.getState())){
             robot.shoulder.setPower(0);
             return next;
         }

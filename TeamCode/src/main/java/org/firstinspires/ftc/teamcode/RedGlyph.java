@@ -27,6 +27,7 @@ public class RedGlyph extends OpMode{
         // Create the state machine and configure states.
         sm = new StateMachine(this, 16);
         sm.addStartState(new WaitState("BriefPause", 1.0, "arm"));
+
         sm.addState(new ShoulderPose("arm", mh,1175,0.4, "drive"));
         sm.addState(new DriveState("drive", mh, 900, "strafe"));
         sm.addState(new SlideState("strafe", mh, 550, "drive_2"));

@@ -123,11 +123,11 @@ public class GigabyteTeleopState extends  StateMachine.State {
             robot.leftClaw.setPosition(robot.MID_SERVO + clawOffset);
             robot.rightClaw.setPosition(robot.MID_SERVO - clawOffset);
         }
-        if(robot.HAS_WRIST) {
-            robot.wrist.setPosition(robot.MID_SERVO + wristOffset);
-            robot.wrist2.setPosition(1-(robot.MID_SERVO + wristOffset));
-        }
-        // Use gamepad buttons to move the arm up (Y) and down (A)
+//        if(robot.HAS_WRIST) {
+//            robot.wrist.setPosition(robot.MID_SERVO + wristOffset);
+//            robot.wrist2.setPosition(1-(robot.MID_SERVO + wristOffset));
+//        }
+//        // Use gamepad buttons to move the arm up (Y) and down (A)
         // Send telemetry message to signify robot running;
         if(robot.HAS_CLAWS) {
             opmode.telemetry.addData("Claw", "Offset = %.2f", clawOffset);
@@ -137,9 +137,6 @@ public class GigabyteTeleopState extends  StateMachine.State {
         }
         if(robot.HAS_CLAWS) {
             opmode.telemetry.addData("ClawActual", "Offset = %.2f", robot.leftClaw.getPosition() - 0.5);
-        }
-        if(robot.HAS_WRIST) {
-            opmode.telemetry.addData("WristActual", "Offset = %.2f", robot.wrist.getPosition() - 0.5);
         }
         if(robot.HAS_SHOULDER) {
             opmode.telemetry.addData("Arm Position", robot.shoulder.getCurrentPosition());

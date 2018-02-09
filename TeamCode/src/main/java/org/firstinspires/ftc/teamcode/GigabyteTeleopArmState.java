@@ -29,6 +29,7 @@ public class GigabyteTeleopArmState extends  StateMachine.State {
     @Override
     public void enter() {
 
+
     }
 
     @Override
@@ -74,10 +75,8 @@ public class GigabyteTeleopArmState extends  StateMachine.State {
         if(opmode.gamepad2.y){
             armspeed=armscale;
         }
-//        if(robot.HAS_WRIST) {
-//            wristOffset+=-0.025*opmode.gamepad2.right_stick_y;
-//            wristOffset=Range.clip(wristOffset,-0.5,0.5);
-//        }
+
+
         if(robot.HAS_SHOULDER) {
             arm_move = -opmode.gamepad2.left_stick_y;
             arm_move=robot.logCurve((float)arm_move);

@@ -69,15 +69,15 @@ public class MecanumBotHardware {
             front_left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             front_right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
-//        dim = hwmap.get(DeviceInterfaceModule.class, "dim");
-//        limitSwitch = hwmap.get(DigitalChannel.class, "switch");
-//        color_sensor = hwmap.get(ColorSensor.class, "color_sensor");
+
+
         if(HAS_CLAWS) {
             leftClaw = hwmap.get(Servo.class, "left_hand");
             rightClaw = hwmap.get(Servo.class, "right_hand");
 
-            leftClaw.setPosition(MID_SERVO);
-            rightClaw.setPosition(MID_SERVO);
+          // Don't move servos at start.
+          //  leftClaw.setPosition(MID_SERVO);
+          //  rightClaw.setPosition(MID_SERVO);
 
             leftClaw.setDirection(Servo.Direction.FORWARD);
             rightClaw.setDirection(Servo.Direction.REVERSE);
@@ -85,8 +85,9 @@ public class MecanumBotHardware {
             leftClawLower = hwmap.get(Servo.class, "left_hand_lower");
             rightClawLower = hwmap.get(Servo.class, "right_hand_lower");
 
-            leftClawLower.setPosition(MID_SERVO);
-            rightClawLower.setPosition(MID_SERVO);
+          // Don't move servos at start.
+          //  leftClawLower.setPosition(MID_SERVO);
+          //  rightClawLower.setPosition(MID_SERVO);
 
             leftClawLower.setDirection(Servo.Direction.FORWARD);
             rightClawLower.setDirection(Servo.Direction.REVERSE);

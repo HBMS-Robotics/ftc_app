@@ -39,9 +39,6 @@ public class VuforiaSense extends StateMachine.State {
         relicTemplate = relicTrackables.get(0);
         relicTemplate.setName("relicVuMarkTemplate");
 
-        opmode.telemetry.addData(">", "Press Play to start");
-        opmode.telemetry.update();
-
         relicTrackables.activate();
 
         counter = 0;
@@ -58,11 +55,12 @@ public class VuforiaSense extends StateMachine.State {
 
 
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
-        opmode.telemetry.addData("VuMark", "%s visible", vuMark);
+        opmode.telemetry.addData("VuMark", "Try %d %s visible", counter, vuMark);
+
         if (vuMark == RelicRecoveryVuMark.UNKNOWN && counter < 5) {
 
-        counter ++;
-        return "";
+            counter ++;
+            return "";
         }
         if (vuMark == RelicRecoveryVuMark.LEFT) {
 
@@ -82,10 +80,8 @@ public class VuforiaSense extends StateMachine.State {
         else {
 
             return "left";
-
         }
 
-        //    opmode.telemetry.update();
 }
 
 

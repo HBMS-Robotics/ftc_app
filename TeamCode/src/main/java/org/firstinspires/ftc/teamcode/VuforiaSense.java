@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.os.SystemClock;
+
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcontroller.external.samples.ConceptVuforiaNavigation;
@@ -21,24 +23,30 @@ public class VuforiaSense extends StateMachine.State {
         next_L = next_L_;
         next_R = next_R_;
         next_M = next_M_;
+
+
+
     }
 
     @Override
     public void enter() {
-
         int cameraID = opmode.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", opmode.hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraID);
 
         parameters.vuforiaLicenseKey = "ATKNdyn/////AAAAmYQhJpUAuEl+gLr8eW1fdqZiov/1+Ph3SRLpLy8hTtmGYB3hW7EgXM0DDKfQC3WIKU42zSSx2eqQKHbIPs5lM2f92UZiqOG2WDP0nR7lqfsE9MSI3r2SEI71dSmOPn6HmQkG/eAOhZfH5EaidI978+xppwmYPusNQybcHnRJUEos8G5HRU1rjP5sY2n6PDLXQltvI0V/TF3DW3fdzzybtcmnXGtmMsYR1qmPUS85wZh0zMixnbXohqIIZ+ctJFqT8Zb+lsDjchj+Ceh8EHxRgF201aM5wKVlf/iuxepPH7BKQ+iQFvWW0SRWRyAei2Lih4OcN1La/9gz/o2SltdOvAoh5mPa00x/MaFZdjQMvITQ";;
         parameters.cameraDirection = VuforiaLocalizer.CameraDirection.BACK;
 
-        vuforia = ClassFactory.createVuforiaLocalizer(parameters);
-        relicTrackables = vuforia.loadTrackablesFromAsset("RelicVuMark");
+        this.vuforia = ClassFactory.createVuforiaLocalizer(parameters);
+        this.relicTrackables = vuforia.loadTrackablesFromAsset("RelicVuMark");
 
-        relicTemplate = relicTrackables.get(0);
-        relicTemplate.setName("relicVuMarkTemplate");
+        this.relicTemplate = relicTrackables.get(0);
+        this.relicTemplate.setName("relicVuMarkTemplate");
 
-        relicTrackables.activate();
+        SystemClock.sleep(500);
+
+        this.relicTrackables.activate();
+        
+        SystemClock.sleep(500);
 
         counter = 0;
     }
@@ -46,14 +54,14 @@ public class VuforiaSense extends StateMachine.State {
     @Override
     public void exit() {
 
-        relicTrackables.deactivate();
+        this.relicTrackables.deactivate();
     }
 
     @Override
     public String update(double secs) {
 
 
-        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+        RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(this.relicTemplate);
         opmode.telemetry.addData("VuMark", "Try %d, %s visible", counter, vuMark);
 
 
@@ -82,7 +90,6 @@ public class VuforiaSense extends StateMachine.State {
     private String next_R;
     private String next_L;
     private String next_M;
-    // private VuforiaLocalizer.Parameters parameters;
     private VuforiaLocalizer vuforia;
     private VuforiaTrackables relicTrackables;
     private VuforiaTrackable relicTemplate;

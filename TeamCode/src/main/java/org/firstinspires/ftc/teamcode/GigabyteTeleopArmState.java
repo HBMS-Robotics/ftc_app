@@ -98,7 +98,6 @@ public class GigabyteTeleopArmState extends  StateMachine.State {
 
         }
         // Move both servos to new position.  Assume servos are mirror image of each other.
-        clawOffset = Range.clip(clawOffset, -0.5, 0.5);
         if(opmode.gamepad2.right_bumper){
             clawOffset=1;
         }
@@ -112,10 +111,10 @@ public class GigabyteTeleopArmState extends  StateMachine.State {
             clawOffsetLower=0;
         }
         if(robot.HAS_CLAWS) {
-            robot.leftClaw.setPosition(robot.MID_SERVO + clawOffset);
-            robot.rightClaw.setPosition(robot.MID_SERVO + clawOffset);
-            robot.leftClawLower.setPosition(robot.MID_SERVO + clawOffsetLower);
-            robot.rightClawLower.setPosition(robot.MID_SERVO + clawOffsetLower);
+            robot.leftClaw.setPosition(clawOffset);
+            robot.rightClaw.setPosition(clawOffset);
+            robot.leftClawLower.setPosition(clawOffsetLower);
+            robot.rightClawLower.setPosition(clawOffsetLower);
         }
 
         // Use gamepad buttons to move the arm up (Y) and down (A)

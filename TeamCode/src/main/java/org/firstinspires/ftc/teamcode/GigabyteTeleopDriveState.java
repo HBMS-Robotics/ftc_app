@@ -14,8 +14,8 @@ public class GigabyteTeleopDriveState extends  StateMachine.State {
     /* Declare OpMode members. */
     // HardwareMap hardwareMap;
     MecanumBotHardware robot;
-    float drive_speed=0.5f;
     float scale=0.25f;
+    float drive_speed=scale*0.5f;
     float clip=0.5f;
     public GigabyteTeleopDriveState(String name, MecanumBotHardware hw) {
         super(name);

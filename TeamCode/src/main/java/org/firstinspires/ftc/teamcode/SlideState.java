@@ -17,7 +17,7 @@ public class SlideState extends StateMachine.State {
         distance = distance_;
         start_position = 0;
         target_position = 0;
-        speed = 0.1f;
+        speed = 0.3f;
     }
 
     @Override

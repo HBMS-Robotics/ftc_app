@@ -33,13 +33,7 @@ public class GigabyteTeleopState extends  StateMachine.State {
     @Override
     public void exit() {
         // Stops commands when you leave the mode:
-        robot.back_left.setPower(0.0);
-        robot.back_right.setPower(0.0);
-
-        if (robot.IS_USING_FOUR_MOTORS) {
-            robot.front_left.setPower(0.0);
-            robot.front_right.setPower(0.0);
-        }
+        robot.drive(0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
     }
 
 

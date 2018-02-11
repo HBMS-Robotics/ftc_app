@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class BlueGlyph extends OpMode{
 
     /* Declare OpMode members. */
-    JewelTailHardware jt = null;
+
     MecanumBotHardware mh = null;
     StateMachine sm = null;
 
@@ -19,9 +19,7 @@ public class BlueGlyph extends OpMode{
     public void init() {
 
         // Create the hardware instance and initialize it.
-        jt = new JewelTailHardware();
         mh = new MecanumBotHardware(true, true, true, true);
-        jt.init(hardwareMap);
         mh.init(hardwareMap);
 
         // Create the state machine and configure states.
@@ -30,7 +28,7 @@ public class BlueGlyph extends OpMode{
 
         sm.addState(new DriveState("drive", mh, 1000, "strafe"));
         sm.addState(new SlideState("strafe", mh, 475, "drive_2"));
-        sm.addState(new DriveState("drive_2", mh, 600, "driveBack"));
+        sm.addState(new DriveState("drive_2", mh, 550, "driveBack"));
         sm.addState(new DriveState("driveBack", mh, -175, "terminal"));
         sm.addState(new TerminalState("terminal"));
         // Init the state machine

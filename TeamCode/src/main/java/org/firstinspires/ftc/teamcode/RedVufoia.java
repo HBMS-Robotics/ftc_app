@@ -23,18 +23,21 @@ public class RedVufoia extends OpMode{
 
         // Create the state machine and configure states.
         sm = new StateMachine(this, 16);
-        sm.addStartState(new WaitState("BriefPause", 1.0, "sense"));
-        sm.addState(new VuforiaSense("sense", "left", "middle", "right"));
-        sm.addState(new WaitState("left", 5.0, "leftdrive"));
-        sm.addState(new DriveState("leftdrive", mh, 1000, "Lstrafe"));
-        sm.addState(new SlideState("Lstrafe", mh, -1300, "drive"));
-        sm.addState(new WaitState("right", 5.0, "rightdrive"));
-        sm.addState(new DriveState("rightdrive", mh, 1000, "Rstrafe"));
-        sm.addState(new SlideState("Rstrafe", mh, -500, "drive"));
-        sm.addState(new WaitState("middle", 5.0, "middledrive"));
-        sm.addState(new DriveState("middledrive", mh, 1000, "Mstrafe"));
+        sm.addStartState(new WaitState("BriefPause", 1.0, "backup"));
+        sm.addState(new DriveState("backup", mh, -75, "arm"));
+        sm.addState(new ShoulderPose("arm", mh,2800, "sense"));
+        sm.addState(new VuforiaSense("sense", "right", "middle", "left"));
+        sm.addState(new WaitState("left", 2.0, "leftdrive"));
+        sm.addState(new DriveState("leftdrive", mh, 1050, "Lrotate"));
+        sm.addState(new Rotate_State("Lrotate", mh, -125, "Lstrafe"));
+        sm.addState(new SlideState("Lstrafe", mh, -475, "drive"));
+        sm.addState(new WaitState("right", 2.0, "rightdrive"));
+        sm.addState(new DriveState("rightdrive", mh, 1050, "Rstrafe"));
+        sm.addState(new SlideState("Rstrafe", mh, -1225, "drive"));
+        sm.addState(new WaitState("middle", 2.0, "middledrive"));
+        sm.addState(new DriveState("middledrive", mh, 1050, "Mstrafe"));
         sm.addState(new SlideState("Mstrafe", mh, -900, "drive"));
-        sm.addState(new DriveState("drive", mh, 750, "driveBack"));
+        sm.addState(new DriveState("drive", mh, 700, "driveBack"));
         sm.addState(new DriveState("driveBack", mh, -125, "terminal"));
         sm.addState(new TerminalState("terminal"));
         // Init the state machine

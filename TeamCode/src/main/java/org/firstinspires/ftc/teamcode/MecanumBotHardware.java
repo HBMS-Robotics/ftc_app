@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.util.Range;
 
 public class MecanumBotHardware {
     public boolean HAS_CLAWS;
-    public boolean IS_USING_FOUR_MOTORS;
+    private boolean IS_USING_FOUR_MOTORS;
     public boolean HAS_WRIST;
     public boolean HAS_SHOULDER;
     public int shoulderSpeed = 100;

@@ -45,7 +45,7 @@ public class VuforiaSense extends StateMachine.State {
         SystemClock.sleep(500);
 
         this.relicTrackables.activate();
-        
+
         SystemClock.sleep(500);
 
         counter = 0;
